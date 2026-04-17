@@ -1,9 +1,41 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
+  const supabase = createClient()
+
+  useEffect(() => {
+    // Check initial session
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      setUser(session?.user || null)
+      setLoading(false)
+    }
+
+    checkSession()
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user || null)
+        setLoading(false)
+      }
+    )
+
+    return () => subscription.unsubscribe()
+  }, [supabase.auth])
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    router.push('/')
+  }
 
   return (
     <nav className="bg-white border-b border-gray-200">
@@ -16,21 +48,65 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a
-              href="#"
-              className="text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors"
-            >
-              Home
-            </a>
-            <a
-              href="#"
-              className="text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors"
-            >
-              About
-            </a>
-            <button className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
-              Join
-            </button>
+            {loading ? (
+              <div className="w-20 h-8 bg-gray-200 animate-pulse rounded"></div>
+            ) : user ? (
+              // Logged in navigation
+              <>
+                <a
+                  href="/write"
+                  className="text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors"
+                >
+                  Write
+                </a>
+                <a
+                  href="/queue"
+                  className="text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors"
+                >
+                  Queue
+                </a>
+                <a
+                  href="/correct"
+                  className="text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors"
+                >
+                  Corrections
+                </a>
+                <a
+                  href="/profile"
+                  className="text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors"
+                >
+                  {user.user_metadata?.username || 'Profile'}
+                </a>
+                <button
+                  onClick={handleSignOut}
+                  className="text-gray-700 hover:text-red-600 px-3 py-2 text-sm font-medium transition-colors"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              // Logged out navigation
+              <>
+                <a
+                  href="/"
+                  className="text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors"
+                >
+                  Home
+                </a>
+                <a
+                  href="#"
+                  className="text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors"
+                >
+                  About
+                </a>
+                <a
+                  href="/auth"
+                  className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Join
+                </a>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -79,21 +155,65 @@ export default function Navbar() {
       {/* Mobile menu panel */}
       <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
-          <a
-            href="#"
-            className="text-gray-700 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
-          >
-            Home
-          </a>
-          <a
-            href="#"
-            className="text-gray-700 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
-          >
-            About
-          </a>
-          <button className="w-full text-left bg-teal-600 hover:bg-teal-700 text-white px-3 py-2 rounded-md text-base font-medium transition-colors">
-            Join
-          </button>
+          {loading ? (
+            <div className="w-full h-8 bg-gray-200 animate-pulse rounded"></div>
+          ) : user ? (
+            // Logged in mobile navigation
+            <>
+              <a
+                href="/write"
+                className="text-gray-700 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+              >
+                Write
+              </a>
+              <a
+                href="/queue"
+                className="text-gray-700 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+              >
+                Queue
+              </a>
+              <a
+                href="/correct"
+                className="text-gray-700 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+              >
+                Corrections
+              </a>
+              <a
+                href="/profile"
+                className="text-gray-700 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+              >
+                {user.user_metadata?.username || 'Profile'}
+              </a>
+              <button
+                onClick={handleSignOut}
+                className="w-full text-left text-gray-700 hover:text-red-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+              >
+                Sign Out
+              </button>
+            </>
+          ) : (
+            // Logged out mobile navigation
+            <>
+              <a
+                href="/"
+                className="text-gray-700 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+              >
+                Home
+              </a>
+              <a
+                href="#"
+                className="text-gray-700 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+              >
+                About
+              </a>
+              <a
+                href="/auth"
+                className="w-full text-left bg-teal-600 hover:bg-teal-700 text-white px-3 py-2 rounded-md text-base font-medium transition-colors"
+              >
+                Join
+              </a>
+            </>
+          )}
         </div>
       </div>
     </nav>
