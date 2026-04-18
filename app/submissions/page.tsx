@@ -27,7 +27,7 @@ interface Submission {
 }
 
 export default async function SubmissionsPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   // Get current user
   const { data: { user }, error: userError } = await supabase.auth.getUser()

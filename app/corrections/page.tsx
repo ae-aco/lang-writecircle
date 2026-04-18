@@ -30,7 +30,7 @@ interface Correction {
 }
 
 export default async function CorrectionsPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   // Get current user
   const { data: { user }, error: userError } = await supabase.auth.getUser()
@@ -83,7 +83,7 @@ export default async function CorrectionsPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Your Corrections</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">My Corrections</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Track all the corrections you've made to help other language learners improve their writing.
           </p>
