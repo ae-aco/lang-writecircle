@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter, useParams } from 'next/navigation'
+import { diff_match_patch } from 'diff-match-patch'
 
 interface Submission {
   id: string
@@ -84,27 +85,26 @@ export default function SubmissionDetailPage() {
   }
 
   const generateDiff = (original: string, corrected: string): DiffWord[] => {
-    const originalWords = original.trim().split(/\s+/)
-    const correctedWords = corrected.trim().split(/\s+/)
+    const dmp = new diff_match_patch()
+    const diffs = dmp.diff_main(original, corrected)
     
-    const diff: DiffWord[] = []
-    let i = 0, j = 0
-
-    while (i < originalWords.length || j < correctedWords.length) {
-      if (i < originalWords.length && j < correctedWords.length && originalWords[i] === correctedWords[j]) {
-        diff.push({ text: originalWords[i], type: 'unchanged' })
-        i++
-        j++
-      } else if (j < correctedWords.length && (i >= originalWords.length || !originalWords.slice(i).includes(correctedWords[j]))) {
-        diff.push({ text: correctedWords[j], type: 'added' })
-        j++
-      } else if (i < originalWords.length) {
-        diff.push({ text: originalWords[i], type: 'removed' })
-        i++
-      }
-    }
-
-    return diff
+    const diffWords: DiffWord[] = []
+    
+    diffs.forEach((diff) => {
+      const words = diff[1].split(/\s+/)
+      words.forEach((word) => {
+        if (word) {
+          const diffType = diff[0] as unknown
+          if (diffType === 1 || diffType === -1) {
+            diffWords.push({ text: word, type: diffType === 1 ? 'added' : 'removed' })
+          } else {
+            diffWords.push({ text: word, type: 'unchanged' })
+          }
+        }
+      })
+    })
+    
+    return diffWords
   }
 
   const renderDiff = (diff: DiffWord[]) => {
@@ -151,6 +151,9 @@ export default function SubmissionDetailPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Submission</h1>
+          {correction && (
+            <p className="text-lg text-gray-600 mb-4">Corrected by: <span className="font-medium text-teal-600">{correction.corrector.username}</span></p>
+          )}
           {submission.prompt && (
             <p className="text-lg text-gray-600">Prompt: {submission.prompt}</p>
           )}
@@ -158,9 +161,9 @@ export default function SubmissionDetailPage() {
 
         {correction ? (
           <>
-            {/* Original Text Section */}
+            {/* Your Original Section */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Original Text</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Your Original</h2>
               <div className="bg-gray-50 p-4 rounded-md">
                 <p className="text-gray-800 whitespace-pre-wrap leading-relaxed">
                   {submission.content}
@@ -188,10 +191,10 @@ export default function SubmissionDetailPage() {
               </div>
             </div>
 
-            {/* Feedback Section */}
+            {/* Feedback Notes Section */}
             {correction.feedback_notes && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Feedback</h2>
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">Feedback Notes</h2>
                 <blockquote className="border-l-4 border-teal-500 pl-4 italic text-gray-700 bg-teal-50 p-4 rounded-r-md">
                   <p className="whitespace-pre-wrap">{correction.feedback_notes}</p>
                 </blockquote>
@@ -212,7 +215,7 @@ export default function SubmissionDetailPage() {
                     onClick={() => setThankYouSent(true)}
                     className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-md font-medium transition-colors"
                   >
-                    Send Thank You
+                    Thank You
                   </button>
                 ) : (
                   <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md inline-block">
@@ -220,7 +223,7 @@ export default function SubmissionDetailPage() {
                       <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      Thank you sent!
+                      Thanks sent! ✓
                     </span>
                   </div>
                 )}
@@ -236,7 +239,7 @@ export default function SubmissionDetailPage() {
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">Correction in Progress</h3>
             <p className="text-gray-600">
-              Your submission is being reviewed by a native speaker. Check back soon to see your correction!
+              Your submission is still awaiting correction — check back soon!
             </p>
           </div>
         )}

@@ -9,6 +9,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
@@ -69,17 +70,45 @@ export default function Navbar() {
                   Queue
                 </a>
                 <a
-                  href="/correct"
+                  href="/corrections"
                   className="text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors"
                 >
                   Corrections
                 </a>
-                <a
-                  href="/profile"
-                  className="text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors"
-                >
-                  {user.user_metadata?.username || 'Profile'}
-                </a>
+                <div className="relative">
+                  <button
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors flex items-center"
+                  >
+                    {user.user_metadata?.username || 'Profile'}
+                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7m0 0l-7 7" />
+                    </svg>
+                  </button>
+                  
+                  {isDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50">
+                      <Link
+                        href="/submissions"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
+                      >
+                        My Submissions
+                      </Link>
+                      <Link
+                        href="/profile"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
+                      >
+                        My Profile
+                      </Link>
+                      <button
+                        onClick={handleSignOut}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
                 <button
                   onClick={handleSignOut}
                   className="text-gray-700 hover:text-red-600 px-3 py-2 text-sm font-medium transition-colors"
@@ -176,16 +205,22 @@ export default function Navbar() {
                 Queue
               </a>
               <a
-                href="/correct"
+                href="/corrections"
                 className="text-gray-700 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
               >
                 Corrections
               </a>
               <a
+                href="/submissions"
+                className="text-gray-700 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
+              >
+                My Submissions
+              </a>
+              <a
                 href="/profile"
                 className="text-gray-700 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
               >
-                {user.user_metadata?.username || 'Profile'}
+                My Profile
               </a>
               <button
                 onClick={handleSignOut}
