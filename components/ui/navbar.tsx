@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -43,7 +44,9 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold text-teal-600">WriteCircle</h1>
+            <Link href="/" className="block">
+              <h1 className="text-2xl font-bold text-teal-600 hover:text-teal-700 transition-colors">WriteCircle</h1>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
