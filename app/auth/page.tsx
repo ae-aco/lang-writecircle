@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { ChevronDown } from 'lucide-react'
 
 const LANGUAGES = [
   // English variants
@@ -106,7 +107,7 @@ function LevelTooltip() {
   )
 }
 
-function SelectField({
+function SearchableSelect({
   id, value, onChange, options, placeholder
 }: {
   id: string
@@ -115,18 +116,70 @@ function SelectField({
   options: { code: string; label: string }[]
   placeholder: string
 }) {
+  const [search, setSearch] = useState('')
+  const [open, setOpen] = useState(false)
+
+  const sorted = [...options].sort((a, b) => a.label.localeCompare(b.label))
+  const filtered = sorted.filter(o =>
+    o.label.toLowerCase().includes(search.toLowerCase())
+  )
+  const selected = options.find(o => o.code === value)
+
   return (
-    <select
-      id={id}
-      value={value}
-      onChange={e => onChange(e.target.value)}
-      className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
-    >
-      <option value="">{placeholder}</option>
-      {options.map(o => (
-        <option key={o.code} value={o.code}>{o.label}</option>
-      ))}
-    </select>
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white text-left focus:outline-none focus:ring-2 focus:ring-teal-500 flex justify-between items-center"
+      >
+        <span className={selected ? 'text-gray-900' : 'text-gray-400'}>
+          {selected ? selected.label : placeholder}
+        </span>
+        <ChevronDown className="w-4 h-4 text-gray-400" />
+      </button>
+
+      {open && (
+        <div className="absolute z-20 w-full bottom-full mb-1 bg-white border border-gray-200 rounded-md shadow-lg">
+          <div className="p-2">
+            <input
+              type="text"
+              placeholder="Search languages..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="w-full border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              autoFocus
+            />
+          </div>
+          <ul className="max-h-48 overflow-y-auto">
+            <li>
+              <button
+                type="button"
+                onClick={() => { onChange(''); setOpen(false); setSearch('') }}
+                className="w-full text-left px-3 py-2 text-sm text-gray-400 hover:bg-gray-50"
+              >
+                {placeholder}
+              </button>
+            </li>
+            {filtered.map(o => (
+              <li key={o.code}>
+                <button
+                  type="button"
+                  onClick={() => { onChange(o.code); setOpen(false); setSearch('') }}
+                  className={`w-full text-left px-3 py-2 text-sm hover:bg-teal-50 hover:text-teal-700 ${
+                    value === o.code ? 'bg-teal-50 text-teal-700 font-medium' : 'text-gray-700'
+                  }`}
+                >
+                  {o.label}
+                </button>
+              </li>
+            ))}
+            {filtered.length === 0 && (
+              <li className="px-3 py-2 text-sm text-gray-400">No languages found</li>
+            )}
+          </ul>
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -384,7 +437,7 @@ export default function AuthPage() {
 
               <div className="space-y-1">
                 <Label htmlFor="native">What is your native language?</Label>
-                <SelectField
+                <SearchableSelect
                   id="native"
                   value={form.native_language}
                   onChange={v => update('native_language', v)}
@@ -395,7 +448,7 @@ export default function AuthPage() {
 
               <div className="space-y-1">
                 <Label htmlFor="learning">What language are you learning?</Label>
-                <SelectField
+                <SearchableSelect
                   id="learning"
                   value={form.learning_language}
                   onChange={v => update('learning_language', v)}
@@ -410,13 +463,17 @@ export default function AuthPage() {
                     What is your level?
                     <LevelTooltip />
                   </Label>
-                  <SelectField
+                  <select
                     id="level"
                     value={form.learning_language_level}
-                    onChange={v => update('learning_language_level', v)}
-                    options={LEVELS}
-                    placeholder="Select your level"
-                  />
+                    onChange={e => update('learning_language_level', e.target.value)}
+                    className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  >
+                    <option value="">Select your level</option>
+                    {LEVELS.map(l => (
+                      <option key={l.code} value={l.code}>{l.label}</option>
+                    ))}
+                  </select>
                 </div>
               )}
 
@@ -426,7 +483,7 @@ export default function AuthPage() {
                     Are you learning a second language?{' '}
                     <span className="text-gray-400 font-normal">(optional)</span>
                   </Label>
-                  <SelectField
+                  <SearchableSelect
                     id="learning2"
                     value={form.learning_language_2}
                     onChange={v => update('learning_language_2', v)}
@@ -442,13 +499,17 @@ export default function AuthPage() {
                     What is your level in {LANGUAGES.find(l => l.code === form.learning_language_2)?.label}?
                     <LevelTooltip />
                   </Label>
-                  <SelectField
+                  <select
                     id="level2"
                     value={form.learning_language_2_level}
-                    onChange={v => update('learning_language_2_level', v)}
-                    options={LEVELS}
-                    placeholder="Select your level"
-                  />
+                    onChange={e => update('learning_language_2_level', e.target.value)}
+                    className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  >
+                    <option value="">Select your level</option>
+                    {LEVELS.map(l => (
+                      <option key={l.code} value={l.code}>{l.label}</option>
+                    ))}
+                  </select>
                 </div>
               )}
 

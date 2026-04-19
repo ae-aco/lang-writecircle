@@ -2,6 +2,31 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
+const LANGUAGES: Record<string, string> = {
+  'en-gb': 'English (British)',
+  'en-us': 'English (American)',
+  'es-es': 'Spanish (Spain)',
+  'es-latam': 'Spanish (Latin American)',
+  'ar-msa': 'Arabic (Modern Standard)',
+  'ar-lev': 'Arabic (Levantine)',
+  'ar-egy': 'Arabic (Egyptian)',
+  'pt-pt': 'Portuguese (European)',
+  'pt-br': 'Portuguese (Brazilian)',
+  'am': 'Amharic', 'ee': 'Ewe', 'ga': 'Ga', 'ig': 'Igbo',
+  'ln': 'Lingala', 'nd': 'Ndebele', 'rw': 'Kinyarwanda',
+  'so': 'Somali', 'st': 'Sesotho', 'sn': 'Shona', 'sw': 'Swahili',
+  'ber': 'Tamazight', 'tw': 'Twi', 'wo': 'Wolof', 'xh': 'Xhosa',
+  'yo': 'Yoruba', 'zu': 'Zulu', 'bn': 'Bengali', 'my': 'Burmese',
+  'hi': 'Hindi', 'id': 'Indonesian', 'fa': 'Persian (Farsi)',
+  'sa': 'Sanskrit (Classical)', 'si': 'Sinhala', 'tl': 'Tagalog',
+  'ta': 'Tamil', 'th': 'Thai', 'bo': 'Tibetan', 'ur': 'Urdu',
+  'vi': 'Vietnamese', 'yue': 'Cantonese', 'zh': 'Mandarin Chinese',
+  'ja': 'Japanese', 'ko': 'Korean', 'he': 'Hebrew',
+  'ku-ckb': 'Kurdish (Sorani)', 'tr': 'Turkish', 'fr': 'French',
+  'de': 'German', 'it': 'Italian', 'ru': 'Russian',
+  'en': 'English', 'es': 'Spanish', 'ar': 'Arabic', 'pt': 'Portuguese'
+}
+
 export default async function DashboardPage() {
   const supabase = await createClient()
 
@@ -56,15 +81,15 @@ export default async function DashboardPage() {
         <div className="bg-white rounded-xl p-6 shadow-sm">
           <h2 className="font-semibold text-gray-700 mb-1">Your Languages</h2>
           <p className="text-sm text-gray-500">
-            Native: <span className="font-medium text-gray-700">{profile.native_language}</span>
+            Native: <span className="font-medium text-gray-700">{LANGUAGES[profile.native_language] || profile.native_language}</span>
           </p>
           <p className="text-sm text-gray-500">
-            Learning: <span className="font-medium text-gray-700">{profile.learning_language}</span>
+            Learning: <span className="font-medium text-gray-700">{LANGUAGES[profile.learning_language] || profile.learning_language}</span>
             {' '}— {profile.learning_language_level}
           </p>
           {profile.learning_language_2 && (
             <p className="text-sm text-gray-500">
-              Also learning: <span className="font-medium text-gray-700">{profile.learning_language_2}</span>
+              Also learning: <span className="font-medium text-gray-700">{LANGUAGES[profile.learning_language_2] || profile.learning_language_2}</span>
               {' '}— {profile.learning_language_2_level}
             </p>
           )}
