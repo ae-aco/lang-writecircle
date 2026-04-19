@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 
 const LANGUAGES = {
   en: 'English',
@@ -148,9 +149,9 @@ export default async function ProfilePage() {
 
           {/* Edit Profile Button */}
           <div className="mt-8 pt-6 border-t border-gray-200">
-            <button className="w-full md:w-auto px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-md transition-colors">
+            <Link href="/profile/edit" className="w-full md:w-auto inline-block px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-md transition-colors text-center">
               Edit Profile
-            </button>
+            </Link>
           </div>
         </div>
       </div>
