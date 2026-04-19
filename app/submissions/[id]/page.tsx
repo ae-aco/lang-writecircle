@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter, useParams } from 'next/navigation'
-import { diff_match_patch } from 'diff-match-patch'
 
 interface Submission {
   id: string
@@ -114,43 +113,56 @@ export default function SubmissionDetailPage() {
   }
 
   const generateDiff = (original: string, corrected: string): DiffWord[] => {
-    const dmp = new diff_match_patch()
-    const diffs = dmp.diff_main(original, corrected)
-    
-    const diffWords: DiffWord[] = []
-    
-    diffs.forEach((diff) => {
-      const words = diff[1].split(/\s+/)
-      words.forEach((word) => {
-        if (word) {
-          const diffType = diff[0] as unknown
-          if (diffType === 1 || diffType === -1) {
-            diffWords.push({ text: word, type: diffType === 1 ? 'added' : 'removed' })
-          } else {
-            diffWords.push({ text: word, type: 'unchanged' })
-          }
-        }
-      })
-    })
-    
-    return diffWords
+  const originalWords = original.trim().split(/\s+/)
+  const correctedWords = corrected.trim().split(/\s+/)
+  const m = originalWords.length
+  const n = correctedWords.length
+
+  // Build LCS table
+  const dp: number[][] = Array(m + 1).fill(null).map(() => Array(n + 1).fill(0))
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (originalWords[i-1].toLowerCase() === correctedWords[j-1].toLowerCase()) {
+        dp[i][j] = dp[i-1][j-1] + 1
+      } else {
+        dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1])
+      }
+    }
   }
 
+  // Traceback
+  const result: DiffWord[] = []
+  let i = m, j = n
+  while (i > 0 || j > 0) {
+    if (i > 0 && j > 0 && originalWords[i-1].toLowerCase() === correctedWords[j-1].toLowerCase()) {
+      result.unshift({ text: correctedWords[j-1], type: 'unchanged' })
+      i--; j--
+    } else if (j > 0 && (i === 0 || dp[i][j-1] >= dp[i-1][j])) {
+      result.unshift({ text: correctedWords[j-1], type: 'added' })
+      j--
+    } else {
+      result.unshift({ text: originalWords[i-1], type: 'removed' })
+      i--
+    }
+  }
+  return result
+}
+
   const renderDiff = (diff: DiffWord[]) => {
-    return diff.map((word, index) => {
-      const className = word.type === 'added' 
-        ? 'text-green-600 font-medium bg-green-50 px-1 rounded'
-        : word.type === 'removed'
-        ? 'text-red-500 line-through bg-red-50 px-1 rounded'
-        : 'text-gray-800'
-      
-      return (
-        <span key={index} className={className}>
-          {word.text}
-          {index < diff.length - 1 && ' '}
-        </span>
-      )
-    })
+    return diff.map((word, index) => (
+      <span
+        key={index}
+        className={
+          word.type === 'added'
+            ? 'text-green-700 font-medium bg-green-100 px-1 rounded mx-0.5'
+            : word.type === 'removed'
+            ? 'text-red-600 line-through bg-red-100 px-1 rounded mx-0.5'
+            : 'mx-0.5'
+        }
+      >
+        {word.text}
+      </span>
+    ))
   }
 
   if (loading) {
@@ -204,7 +216,7 @@ export default function SubmissionDetailPage() {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Corrected Version</h2>
               <div className="bg-gray-50 p-4 rounded-md">
-                <p className="leading-relaxed text-lg">
+                <p className="leading-relaxed whitespace-normal break-words text-lg">
                   {renderDiff(generateDiff(submission.content, correction.corrected_content))}
                 </p>
               </div>
