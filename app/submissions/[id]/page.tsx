@@ -25,6 +25,10 @@ interface Correction {
   }
 }
 
+interface CorrectorProfile {
+  username: string
+}
+
 interface DiffWord {
   text: string
   type: 'unchanged' | 'added' | 'removed'
@@ -70,7 +74,32 @@ export default function SubmissionDetailPage() {
           )
         `)
         .eq('submission_id', submissionId)
+        .order('created_at', { ascending: false })
+        .limit(1)
         .single()
+
+      if (correctionError && correctionError.code !== 'PGRST116') {
+        throw correctionError
+      }
+      setCorrection(correctionData)
+
+      // Fetch corrector's profile
+      if (correctionData?.corrector_id) {
+        const { data: correctorProfile } = await supabase
+          .from('profiles')
+          .select('username')
+          .eq('id', correctionData.corrector_id)
+          .single()
+        
+        if (correctorProfile) {
+          setCorrection(prev => ({
+            ...prev!,
+            corrector: {
+              username: correctorProfile.username
+            }
+          }))
+        }
+      }
 
       if (correctionError && correctionError.code !== 'PGRST116') {
         throw correctionError
@@ -191,10 +220,10 @@ export default function SubmissionDetailPage() {
               </div>
             </div>
 
-            {/* Feedback Notes Section */}
+            {/* Corrector's Notes Section */}
             {correction.feedback_notes && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Feedback Notes</h2>
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">Corrector's Notes</h2>
                 <blockquote className="border-l-4 border-teal-500 pl-4 italic text-gray-700 bg-teal-50 p-4 rounded-r-md">
                   <p className="whitespace-pre-wrap">{correction.feedback_notes}</p>
                 </blockquote>
@@ -239,7 +268,7 @@ export default function SubmissionDetailPage() {
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">Correction in Progress</h3>
             <p className="text-gray-600">
-              Your submission is still awaiting correction — check back soon!
+              Still awaiting correction — check back soon!
             </p>
           </div>
         )}

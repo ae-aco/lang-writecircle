@@ -117,7 +117,7 @@ export default function CorrectPage() {
       // Update submission status
       const { error: updateError } = await supabase
         .from('submissions')
-        .update({ status: 'in_progress' })
+        .update({ status: 'corrected' })
         .eq('id', submission.id)
 
       if (updateError) throw updateError
