@@ -225,6 +225,12 @@ export default function EditProfilePage() {
     setLanguagesError('')
 
     try {
+      if (learningLanguage2 && !learningLevel2) {
+        setLanguagesError('Please select a level for your second language.')
+        setSavingLanguages(false)
+        return
+      }
+      
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) throw new Error('Not authenticated')
 
@@ -232,11 +238,8 @@ export default function EditProfilePage() {
         native_language: nativeLanguage,
         learning_language: learningLanguage,
         learning_language_level: learningLevel,
-      }
-
-      if (learningLanguage2) {
-        updateData.learning_language_2 = learningLanguage2
-        updateData.learning_language_2_level = learningLevel2
+        learning_language_2: learningLanguage2 || null,
+        learning_language_2_level: learningLanguage2 ? learningLevel2 : null,
       }
 
       const { error } = await supabase

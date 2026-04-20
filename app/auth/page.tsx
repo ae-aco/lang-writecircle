@@ -353,6 +353,7 @@ export default function AuthPage() {
                   placeholder="you@example.com"
                   value={form.email}
                   onChange={e => update('email', e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') handleLogin() }}
                 />
               </div>
               <div className="space-y-1">
@@ -363,6 +364,7 @@ export default function AuthPage() {
                   placeholder="••••••••"
                   value={form.password}
                   onChange={e => update('password', e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') handleLogin() }}
                 />
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
@@ -396,6 +398,7 @@ export default function AuthPage() {
                   placeholder="you@example.com"
                   value={form.email}
                   onChange={e => update('email', e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') handleLogin() }}
                 />
               </div>
               <div className="space-y-1">
@@ -416,6 +419,7 @@ export default function AuthPage() {
                   placeholder="••••••••"
                   value={form.confirm_password}
                   onChange={e => update('confirm_password', e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') handleNext() }}
                 />
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
