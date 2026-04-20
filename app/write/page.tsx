@@ -16,6 +16,39 @@ interface FormData {
   prompt: string
 }
 
+const PROMPTS = [
+  "Describe what you did this morning in as much detail as possible.",
+  "Write about a place that makes you feel happy and why.",
+  "Describe your favourite meal and how it is made.",
+  "Write about a person who has influenced your life.",
+  "Describe the view from your window right now.",
+  "Write about a childhood memory that makes you smile.",
+  "Describe your ideal weekend from morning to night.",
+  "Write about a skill you want to learn and why.",
+  "Describe the last film or show you watched.",
+  "Write about what your city or town is like.",
+  "Describe a tradition or celebration that is important to you.",
+  "Write about an object in your home that has a story behind it.",
+  "Describe the best gift you have ever received.",
+  "Write about something that made you laugh recently.",
+  "Describe your morning routine step by step.",
+  "Write about a goal you are working towards right now.",
+  "Describe the most beautiful place you have ever visited.",
+  "Write about what friendship means to you.",
+  "Describe a challenge you overcame and what you learned.",
+  "Write about your favourite season and why you love it.",
+  "Describe what a perfect day looks like to you.",
+  "Write about a book or song that changed how you think.",
+  "Describe your hometown to someone who has never been there.",
+  "Write about something you are grateful for today.",
+  "Describe a hobby you enjoy and how you got into it.",
+  "Write about the most interesting person you have ever met.",
+  "Describe what you would do with an unexpected free day.",
+  "Write about a time you tried something new.",
+  "Describe your favourite way to relax after a long day.",
+  "Write about something you wish more people knew about your culture.",
+]
+
 const LANGUAGES = [
   // English variants
   { code: 'en-gb', label: 'English (British)' },
@@ -77,6 +110,13 @@ const LANGUAGES = [
   { code: 'it', label: 'Italian' },
   { code: 'ru', label: 'Russian' },
 ]
+
+function getTodaysPrompt(): string {
+  const start = new Date('2026-01-01')
+  const today = new Date()
+  const dayIndex = Math.floor((today.getTime() - start.getTime()) / (1000 * 60 * 60 * 24))
+  return PROMPTS[dayIndex % PROMPTS.length]
+}
 
 export default function WritePage() {
   const [user, setUser] = useState<any>(null)
@@ -282,6 +322,25 @@ export default function WritePage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-8">Write in Your Target Language</h1>
+          
+          {/* Prompt of the Day */}
+          <div className="bg-teal-50 border border-teal-200 rounded-lg p-4 mb-4">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold text-teal-600 uppercase tracking-wide mb-1">
+                  Prompt of the Day
+                </p>
+                <p className="text-sm text-gray-700">{getTodaysPrompt()}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setFormData(prev => ({ ...prev, content: getTodaysPrompt() }))}
+                className="shrink-0 text-xs bg-teal-600 hover:bg-teal-700 text-white px-3 py-1.5 rounded-md transition-colors"
+              >
+                Use this
+              </button>
+            </div>
+          </div>
           
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Language Selector */}

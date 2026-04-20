@@ -452,6 +452,7 @@ export default function EditProfilePage() {
                 className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
                 placeholder="Enter new password"
               />
+              <p className="text-xs text-gray-400 mt-1">Must be at least 8 characters</p>
             </div>
 
             <div>
