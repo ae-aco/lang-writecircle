@@ -16,16 +16,6 @@ const LANGUAGES: Record<string, string> = {
   'ln': 'Lingala', 'nd': 'Ndebele', 'rw': 'Kinyarwanda',
   'so': 'Somali', 'st': 'Sesotho', 'sn': 'Shona', 'sw': 'Swahili',
   'ber': 'Tamazight', 'tw': 'Twi', 'wo': 'Wolof', 'xh': 'Xhosa',
-  'yo': 'Yoruba', 'zu': 'Zulu', 'bn': 'Bengali', 'my': 'Burmese',
-  'hi': 'Hindi', 'id': 'Indonesian', 'fa': 'Persian (Farsi)',
-  'sa': 'Sanskrit (Classical)', 'si': 'Sinhala', 'tl': 'Tagalog',
-  'ta': 'Tamil', 'th': 'Thai', 'bo': 'Tibetan', 'ur': 'Urdu',
-  'vi': 'Vietnamese', 'yue': 'Cantonese', 'zh': 'Mandarin Chinese',
-  'ja': 'Japanese', 'ko': 'Korean', 'he': 'Hebrew',
-  'ku-ckb': 'Kurdish (Sorani)', 'tr': 'Turkish', 'fr': 'French',
-  'de': 'German', 'it': 'Italian', 'ru': 'Russian',
-  'en': 'English', 'es': 'Spanish', 'ar': 'Arabic', 'pt': 'Portuguese'
-}
 
 export default async function DashboardPage() {
   const supabase = await createClient()

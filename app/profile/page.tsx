@@ -2,20 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
-const LANGUAGES = {
-  en: 'English',
-  es: 'Spanish',
-  fr: 'French',
-  de: 'German',
-  it: 'Italian',
-  pt: 'Portuguese',
-  ja: 'Japanese',
-  ko: 'Korean',
-  zh: 'Mandarin Chinese',
-  ar: 'Arabic',
-  ru: 'Russian',
-  hi: 'Hindi',
-}
+import { LANGUAGE_NAMES } from '@/lib/languages'
 
 const LEVEL_LABELS = {
   beginner: 'Beginner',

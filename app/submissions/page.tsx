@@ -2,41 +2,6 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
-const LANGUAGE_NAMES: Record<string, string> = {
-  'en-gb': 'English (British)', 'en-us': 'English (American)',
-  'es-es': 'Spanish (Spain)', 'es-latam': 'Spanish (Latin American)',
-  'ar-msa': 'Arabic (Modern Standard)', 'ar-lev': 'Arabic (Levantine)',
-  'ar-egy': 'Arabic (Egyptian)', 'pt-pt': 'Portuguese (European)',
-  'pt-br': 'Portuguese (Brazilian)', 'am': 'Amharic', 'ee': 'Ewe',
-  'ga': 'Ga', 'ig': 'Igbo', 'ln': 'Lingala', 'nd': 'Ndebele',
-  'rw': 'Kinyarwanda', 'so': 'Somali', 'st': 'Sesotho', 'sn': 'Shona',
-  'sw': 'Swahili', 'ber': 'Tamazight', 'tw': 'Twi', 'wo': 'Wolof',
-  'xh': 'Xhosa', 'yo': 'Yoruba', 'zu': 'Zulu', 'bn': 'Bengali',
-  'my': 'Burmese', 'hi': 'Hindi', 'id': 'Indonesian', 'fa': 'Persian (Farsi)',
-  'sa': 'Sanskrit (Classical)', 'si': 'Sinhala', 'tl': 'Tagalog',
-  'ta': 'Tamil', 'th': 'Thai', 'bo': 'Tibetan', 'ur': 'Urdu',
-  'vi': 'Vietnamese', 'yue': 'Cantonese', 'zh': 'Mandarin Chinese',
-  'ja': 'Japanese', 'ko': 'Korean', 'he': 'Hebrew',
-  'ku-ckb': 'Kurdish (Sorani)', 'tr': 'Turkish', 'fr': 'French',
-  'de': 'German', 'it': 'Italian', 'ru': 'Russian',
-  'en': 'English', 'es': 'Spanish', 'ar': 'Arabic', 'pt': 'Portuguese'
-}
-
-const LANGUAGES = {
-  en: 'English',
-  es: 'Spanish',
-  fr: 'French',
-  de: 'German',
-  it: 'Italian',
-  pt: 'Portuguese',
-  ja: 'Japanese',
-  ko: 'Korean',
-  zh: 'Mandarin Chinese',
-  ar: 'Arabic',
-  ru: 'Russian',
-  hi: 'Hindi',
-}
-
 interface Submission {
   id: string
   content: string

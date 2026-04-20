@@ -5,7 +5,6 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { ChevronDown } from 'lucide-react'
 
-const LANGUAGES = [
   { code: 'en-gb', label: 'English (British)' },
   { code: 'en-us', label: 'English (American)' },
   { code: 'es-es', label: 'Spanish (Spain)' },

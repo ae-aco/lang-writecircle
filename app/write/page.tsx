@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { LANGUAGES, LANGUAGE_NAMES } from '@/lib/languages'
 
 interface UserProfile {
   pages: number
@@ -14,26 +15,6 @@ interface FormData {
   content: string
   language: string
   prompt: string
-}
-
-const LANGUAGE_NAMES: Record<string, string> = {
-  'en-gb': 'English (British)', 'en-us': 'English (American)',
-  'es-es': 'Spanish (Spain)', 'es-latam': 'Spanish (Latin American)',
-  'ar-msa': 'Arabic (Modern Standard)', 'ar-lev': 'Arabic (Levantine)',
-  'ar-egy': 'Arabic (Egyptian)', 'pt-pt': 'Portuguese (European)',
-  'pt-br': 'Portuguese (Brazilian)', 'am': 'Amharic', 'ee': 'Ewe',
-  'ga': 'Ga', 'ig': 'Igbo', 'ln': 'Lingala', 'nd': 'Ndebele',
-  'rw': 'Kinyarwanda', 'so': 'Somali', 'st': 'Sesotho', 'sn': 'Shona',
-  'sw': 'Swahili', 'ber': 'Tamazight', 'tw': 'Twi', 'wo': 'Wolof',
-  'xh': 'Xhosa', 'yo': 'Yoruba', 'zu': 'Zulu', 'bn': 'Bengali',
-  'my': 'Burmese', 'hi': 'Hindi', 'id': 'Indonesian', 'fa': 'Persian (Farsi)',
-  'sa': 'Sanskrit (Classical)', 'si': 'Sinhala', 'tl': 'Tagalog',
-  'ta': 'Tamil', 'th': 'Thai', 'bo': 'Tibetan', 'ur': 'Urdu',
-  'vi': 'Vietnamese', 'yue': 'Cantonese', 'zh': 'Mandarin Chinese',
-  'ja': 'Japanese', 'ko': 'Korean', 'he': 'Hebrew',
-  'ku-ckb': 'Kurdish (Sorani)', 'tr': 'Turkish', 'fr': 'French',
-  'de': 'German', 'it': 'Italian', 'ru': 'Russian',
-  'en': 'English', 'es': 'Spanish', 'ar': 'Arabic', 'pt': 'Portuguese'
 }
 
 const PROMPTS = [
@@ -67,68 +48,6 @@ const PROMPTS = [
   "Write about a time you tried something new.",
   "Describe your favourite way to relax after a long day.",
   "Write about something you wish more people knew about your culture.",
-]
-
-const LANGUAGES = [
-  // English variants
-  { code: 'en-gb', label: 'English (British)' },
-  { code: 'en-us', label: 'English (American)' },
-  // Spanish variants
-  { code: 'es-es', label: 'Spanish (Spain)' },
-  { code: 'es-latam', label: 'Spanish (Latin American)' },
-  // Arabic variants
-  { code: 'ar-msa', label: 'Arabic (Modern Standard)' },
-  { code: 'ar-lev', label: 'Arabic (Levantine)' },
-  { code: 'ar-egy', label: 'Arabic (Egyptian)' },
-  // Portuguese variants
-  { code: 'pt-pt', label: 'Portuguese (European)' },
-  { code: 'pt-br', label: 'Portuguese (Brazilian)' },
-  // African languages
-  { code: 'am', label: 'Amharic' },
-  { code: 'ee', label: 'Ewe' },
-  { code: 'ga', label: 'Ga' },
-  { code: 'ig', label: 'Igbo' },
-  { code: 'ln', label: 'Lingala' },
-  { code: 'nd', label: 'Ndebele' },
-  { code: 'rw', label: 'Kinyarwanda' },
-  { code: 'so', label: 'Somali' },
-  { code: 'st', label: 'Sesotho' },
-  { code: 'sn', label: 'Shona' },
-  { code: 'sw', label: 'Swahili' },
-  { code: 'ber', label: 'Tamazight' },
-  { code: 'tw', label: 'Twi' },
-  { code: 'wo', label: 'Wolof' },
-  { code: 'xh', label: 'Xhosa' },
-  { code: 'yo', label: 'Yoruba' },
-  { code: 'zu', label: 'Zulu' },
-  // South & Southeast Asian languages
-  { code: 'bn', label: 'Bengali' },
-  { code: 'my', label: 'Burmese' },
-  { code: 'hi', label: 'Hindi' },
-  { code: 'id', label: 'Indonesian' },
-  { code: 'fa', label: 'Persian (Farsi)' },
-  { code: 'sa', label: 'Sanskrit (Classical)' },
-  { code: 'si', label: 'Sinhala' },
-  { code: 'tl', label: 'Tagalog' },
-  { code: 'ta', label: 'Tamil' },
-  { code: 'th', label: 'Thai' },
-  { code: 'bo', label: 'Tibetan' },
-  { code: 'ur', label: 'Urdu' },
-  { code: 'vi', label: 'Vietnamese' },
-  // East Asian languages
-  { code: 'yue', label: 'Cantonese' },
-  { code: 'zh', label: 'Mandarin Chinese' },
-  { code: 'ja', label: 'Japanese' },
-  { code: 'ko', label: 'Korean' },
-  // Middle Eastern languages
-  { code: 'he', label: 'Hebrew' },
-  { code: 'ku-ckb', label: 'Kurdish (Sorani)' },
-  { code: 'tr', label: 'Turkish' },
-  // European languages
-  { code: 'fr', label: 'French' },
-  { code: 'de', label: 'German' },
-  { code: 'it', label: 'Italian' },
-  { code: 'ru', label: 'Russian' },
 ]
 
 function getTodaysPrompt(): string {
