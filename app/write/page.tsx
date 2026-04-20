@@ -16,6 +16,26 @@ interface FormData {
   prompt: string
 }
 
+const LANGUAGE_NAMES: Record<string, string> = {
+  'en-gb': 'English (British)', 'en-us': 'English (American)',
+  'es-es': 'Spanish (Spain)', 'es-latam': 'Spanish (Latin American)',
+  'ar-msa': 'Arabic (Modern Standard)', 'ar-lev': 'Arabic (Levantine)',
+  'ar-egy': 'Arabic (Egyptian)', 'pt-pt': 'Portuguese (European)',
+  'pt-br': 'Portuguese (Brazilian)', 'am': 'Amharic', 'ee': 'Ewe',
+  'ga': 'Ga', 'ig': 'Igbo', 'ln': 'Lingala', 'nd': 'Ndebele',
+  'rw': 'Kinyarwanda', 'so': 'Somali', 'st': 'Sesotho', 'sn': 'Shona',
+  'sw': 'Swahili', 'ber': 'Tamazight', 'tw': 'Twi', 'wo': 'Wolof',
+  'xh': 'Xhosa', 'yo': 'Yoruba', 'zu': 'Zulu', 'bn': 'Bengali',
+  'my': 'Burmese', 'hi': 'Hindi', 'id': 'Indonesian', 'fa': 'Persian (Farsi)',
+  'sa': 'Sanskrit (Classical)', 'si': 'Sinhala', 'tl': 'Tagalog',
+  'ta': 'Tamil', 'th': 'Thai', 'bo': 'Tibetan', 'ur': 'Urdu',
+  'vi': 'Vietnamese', 'yue': 'Cantonese', 'zh': 'Mandarin Chinese',
+  'ja': 'Japanese', 'ko': 'Korean', 'he': 'Hebrew',
+  'ku-ckb': 'Kurdish (Sorani)', 'tr': 'Turkish', 'fr': 'French',
+  'de': 'German', 'it': 'Italian', 'ru': 'Russian',
+  'en': 'English', 'es': 'Spanish', 'ar': 'Arabic', 'pt': 'Portuguese'
+}
+
 const PROMPTS = [
   "Describe what you did this morning in as much detail as possible.",
   "Write about a place that makes you feel happy and why.",
@@ -284,16 +304,16 @@ export default function WritePage() {
   const getAvailableLanguages = () => {
     if (!profile) return []
     
-    const languages = []
-    const mainLang = LANGUAGES.find(l => l.code === profile.learning_language)
-    if (mainLang) languages.push(mainLang)
+    const learningLanguages = [
+      profile.learning_language,
+      profile.learning_language_2
+    ].filter(Boolean)
     
-    if (profile.learning_language_2) {
-      const secondLang = LANGUAGES.find(l => l.code === profile.learning_language_2)
-      if (secondLang) languages.push(secondLang)
-    }
-    
-    return languages
+    return learningLanguages.map(code => {
+      if (!code) return { code: '', label: '' }
+      const lang = LANGUAGES.find(l => l.code === code)
+      return lang || { code, label: LANGUAGE_NAMES[code] || code }
+    })
   }
 
   if (loading) {
@@ -334,7 +354,7 @@ export default function WritePage() {
               </div>
               <button
                 type="button"
-                onClick={() => setFormData(prev => ({ ...prev, content: getTodaysPrompt() }))}
+                onClick={() => { setFormData(prev => ({ ...prev, content: '' })); setTimeout(() => setFormData(prev => ({ ...prev, content: getTodaysPrompt() })), 0) }}
                 className="shrink-0 text-xs bg-teal-600 hover:bg-teal-700 text-white px-3 py-1.5 rounded-md transition-colors"
               >
                 Use this
@@ -358,7 +378,7 @@ export default function WritePage() {
                 <option value="">Select a language</option>
                 {getAvailableLanguages().map(lang => (
                   <option key={lang.code} value={lang.code}>
-                    {lang.label}
+                    {LANGUAGE_NAMES[lang.code] || lang.code}
                   </option>
                 ))}
               </select>

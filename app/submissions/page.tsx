@@ -2,6 +2,26 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
+const LANGUAGE_NAMES: Record<string, string> = {
+  'en-gb': 'English (British)', 'en-us': 'English (American)',
+  'es-es': 'Spanish (Spain)', 'es-latam': 'Spanish (Latin American)',
+  'ar-msa': 'Arabic (Modern Standard)', 'ar-lev': 'Arabic (Levantine)',
+  'ar-egy': 'Arabic (Egyptian)', 'pt-pt': 'Portuguese (European)',
+  'pt-br': 'Portuguese (Brazilian)', 'am': 'Amharic', 'ee': 'Ewe',
+  'ga': 'Ga', 'ig': 'Igbo', 'ln': 'Lingala', 'nd': 'Ndebele',
+  'rw': 'Kinyarwanda', 'so': 'Somali', 'st': 'Sesotho', 'sn': 'Shona',
+  'sw': 'Swahili', 'ber': 'Tamazight', 'tw': 'Twi', 'wo': 'Wolof',
+  'xh': 'Xhosa', 'yo': 'Yoruba', 'zu': 'Zulu', 'bn': 'Bengali',
+  'my': 'Burmese', 'hi': 'Hindi', 'id': 'Indonesian', 'fa': 'Persian (Farsi)',
+  'sa': 'Sanskrit (Classical)', 'si': 'Sinhala', 'tl': 'Tagalog',
+  'ta': 'Tamil', 'th': 'Thai', 'bo': 'Tibetan', 'ur': 'Urdu',
+  'vi': 'Vietnamese', 'yue': 'Cantonese', 'zh': 'Mandarin Chinese',
+  'ja': 'Japanese', 'ko': 'Korean', 'he': 'Hebrew',
+  'ku-ckb': 'Kurdish (Sorani)', 'tr': 'Turkish', 'fr': 'French',
+  'de': 'German', 'it': 'Italian', 'ru': 'Russian',
+  'en': 'English', 'es': 'Spanish', 'ar': 'Arabic', 'pt': 'Portuguese'
+}
+
 const LANGUAGES = {
   en: 'English',
   es: 'Spanish',
@@ -151,7 +171,7 @@ export default async function SubmissionsPage() {
                               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
                               </svg>
-                              {LANGUAGES[submission.language as keyof typeof LANGUAGES]}
+                              {LANGUAGE_NAMES[submission.language] || submission.language}
                             </span>
                             <span className="flex items-center">
                               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -211,7 +231,7 @@ export default async function SubmissionsPage() {
                               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
                               </svg>
-                              {LANGUAGES[submission.language as keyof typeof LANGUAGES]}
+                              {LANGUAGE_NAMES[submission.language] || submission.language}
                             </span>
                             <span className="flex items-center">
                               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
