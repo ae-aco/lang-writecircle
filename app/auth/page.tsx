@@ -8,34 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChevronDown } from 'lucide-react'
-import { LANGUAGE_NAMES, LEVELS } from '@/lib/languages'
-  { code: 'ta', label: 'Tamil' },
-  { code: 'th', label: 'Thai' },
-  { code: 'bo', label: 'Tibetan' },
-  { code: 'ur', label: 'Urdu' },
-  { code: 'vi', label: 'Vietnamese' },
-  // East Asian languages
-  { code: 'yue', label: 'Cantonese' },
-  { code: 'zh', label: 'Mandarin Chinese' },
-  { code: 'ja', label: 'Japanese' },
-  { code: 'ko', label: 'Korean' },
-  // Middle Eastern languages
-  { code: 'he', label: 'Hebrew' },
-  { code: 'ku-ckb', label: 'Kurdish (Sorani)' },
-  { code: 'tr', label: 'Turkish' },
-  // European languages
-  { code: 'fr', label: 'French' },
-  { code: 'de', label: 'German' },
-  { code: 'it', label: 'Italian' },
-  { code: 'ru', label: 'Russian' },
-]
-
-const LEVELS = [
-  { code: 'beginner', label: 'Beginner', cefr: 'A1/A2 — just starting out' },
-  { code: 'intermediate', label: 'Intermediate', cefr: 'B1/B2 — can hold a conversation' },
-  { code: 'advanced', label: 'Advanced', cefr: 'C1 — comfortable with complex topics' },
-  { code: 'fluent', label: 'Fluent', cefr: 'C2 — near native level' },
-]
+import { LANGUAGES, LANGUAGE_NAMES, LEVELS } from '@/lib/languages'
 
 function LevelTooltip() {
   const [open, setOpen] = useState(false)
