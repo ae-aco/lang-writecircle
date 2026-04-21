@@ -4,20 +4,6 @@ import Link from 'next/link'
 
 import { LANGUAGE_NAMES } from '@/lib/languages'
 
-  en: 'English',
-  es: 'Spanish',
-  fr: 'French',
-  de: 'German',
-  it: 'Italian',
-  pt: 'Portuguese',
-  ja: 'Japanese',
-  ko: 'Korean',
-  zh: 'Mandarin Chinese',
-  ar: 'Arabic',
-  ru: 'Russian',
-  hi: 'Hindi',
-}
-
 interface Submission {
   id: string
   content: string

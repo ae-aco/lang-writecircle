@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { LANGUAGE_NAMES } from '@/lib/languages'
 
 interface Submission {
   id: string

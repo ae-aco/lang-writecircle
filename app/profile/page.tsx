@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-
 import { LANGUAGE_NAMES } from '@/lib/languages'
 
 const LEVEL_LABELS = {
@@ -76,20 +75,20 @@ export default async function ProfilePage() {
                   <div>
                     <span className="text-sm text-gray-500">Native:</span>
                     <p className="font-medium text-gray-900">
-                      {LANGUAGES[profile.native_language as keyof typeof LANGUAGES]}
+                      {LANGUAGE_NAMES[profile.native_language as string]}
                     </p>
                   </div>
                   <div>
                     <span className="text-sm text-gray-500">Learning:</span>
                     <p className="font-medium text-gray-900">
-                      {LANGUAGES[profile.learning_language as keyof typeof LANGUAGES]} — {LEVEL_LABELS[profile.learning_language_level as keyof typeof LEVEL_LABELS]}
+                      {LANGUAGE_NAMES[profile.learning_language as string]} — {LEVEL_LABELS[profile.learning_language_level as keyof typeof LEVEL_LABELS]}
                     </p>
                   </div>
                   {profile.learning_language_2 && (
                     <div>
                       <span className="text-sm text-gray-500">Also Learning:</span>
                       <p className="font-medium text-gray-900">
-                        {LANGUAGES[profile.learning_language_2 as keyof typeof LANGUAGES]} — {LEVEL_LABELS[profile.learning_language_2_level as keyof typeof LEVEL_LABELS]}
+                        {LANGUAGE_NAMES[profile.learning_language_2 as string]} — {LEVEL_LABELS[profile.learning_language_2_level as keyof typeof LEVEL_LABELS]}
                       </p>
                     </div>
                   )}
