@@ -34,22 +34,22 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-2xl font-bold text-teal-600 mb-2">
+        <h1 className="text-2xl font-bold text-indigo-600 mb-2">
           Welcome back, {profile.username}! 👋
         </h1>
         <p className="text-gray-500 mb-6">Your WriteCircle dashboard</p>
 
         <div className="grid grid-cols-3 gap-4 mb-8">
           <div className="bg-white rounded-xl p-4 shadow-sm text-center">
-            <p className="text-3xl font-bold text-teal-600">{profile.pages}</p>
+            <p className="text-3xl font-bold text-indigo-600">{profile.pages}</p>
             <p className="text-sm text-gray-500 mt-1">Pages</p>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm text-center">
-            <p className="text-3xl font-bold text-teal-600">{submissionCount}</p>
+            <p className="text-3xl font-bold text-indigo-600">{submissionCount}</p>
             <p className="text-sm text-gray-500 mt-1">Submissions</p>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm text-center">
-            <p className="text-3xl font-bold text-teal-600">{correctionCount}</p>
+            <p className="text-3xl font-bold text-indigo-600">{correctionCount}</p>
             <p className="text-sm text-gray-500 mt-1">Corrections</p>
           </div>
         </div>
