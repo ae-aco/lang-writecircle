@@ -132,6 +132,12 @@ export default function CorrectPage() {
 
       if (transactionError) throw transactionError
 
+      // Record user activity
+      await supabase.rpc('record_user_activity', {
+        p_user_id: user.id,
+        p_activity_type: 'correction'
+      })
+
       router.push('/queue')
     } catch (err) {
       console.error('Error submitting correction:', err)

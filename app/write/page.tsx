@@ -178,6 +178,12 @@ export default function WritePage() {
 
       if (transactionError) throw transactionError
 
+      // Record user activity
+      await supabase.rpc('record_user_activity', {
+        p_user_id: user.id,
+        p_activity_type: 'submission'
+      })
+
       router.push('/dashboard')
     } catch (err) {
       console.error('Error submitting:', err)
