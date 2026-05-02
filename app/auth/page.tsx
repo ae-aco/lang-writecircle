@@ -17,7 +17,7 @@ function LevelTooltip() {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-4 h-4 rounded-full bg-gray-200 text-gray-600 text-xs font-bold inline-flex items-center justify-center hover:bg-teal-100 hover:text-teal-700 transition-colors"
+        className="w-4 h-4 rounded-full bg-gray-200 text-gray-600 text-xs font-bold inline-flex items-center justify-center hover:bg-indigo-100 hover:text-indigo-700 transition-colors"
       >
         i
       </button>
@@ -29,7 +29,7 @@ function LevelTooltip() {
           ))}
           <button
             onClick={() => setOpen(false)}
-            className="mt-2 text-teal-600 font-medium hover:underline"
+            className="mt-2 text-indigo-600 font-medium hover:underline"
           >
             Close
           </button>
@@ -62,7 +62,7 @@ function SearchableSelect({
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white text-left focus:outline-none focus:ring-2 focus:ring-teal-500 flex justify-between items-center"
+        className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 flex justify-between items-center"
       >
         <span className={selected ? 'text-gray-900' : 'text-gray-400'}>
           {selected ? selected.label : placeholder}
@@ -78,7 +78,7 @@ function SearchableSelect({
               placeholder="Search languages..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               autoFocus
             />
           </div>
@@ -97,8 +97,8 @@ function SearchableSelect({
                 <button
                   type="button"
                   onClick={() => { onChange(o.code); setOpen(false); setSearch('') }}
-                  className={`w-full text-left px-3 py-2 text-sm hover:bg-teal-50 hover:text-teal-700 ${
-                    value === o.code ? 'bg-teal-50 text-teal-700 font-medium' : 'text-gray-700'
+                  className={`w-full text-left px-3 py-2 text-sm hover:bg-indigo-50 hover:text-indigo-700 ${
+                    value === o.code ? 'bg-indigo-50 text-indigo-700 font-medium' : 'text-gray-700'
                   }`}
                 >
                   {o.label}
@@ -253,7 +253,7 @@ export default function AuthPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-10">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-teal-600">
+          <CardTitle className="text-2xl font-bold text-indigo-600">
             WriteCircle
           </CardTitle>
           <CardDescription>
@@ -266,8 +266,8 @@ export default function AuthPage() {
 
           {mode === 'signup' && (
             <div className="flex items-center justify-center gap-2 mt-3">
-              <div className={`h-2 w-16 rounded-full transition-colors ${step >= 1 ? 'bg-teal-500' : 'bg-gray-200'}`} />
-              <div className={`h-2 w-16 rounded-full transition-colors ${step >= 2 ? 'bg-teal-500' : 'bg-gray-200'}`} />
+              <div className={`h-2 w-16 rounded-full transition-colors ${step >= 1 ? 'bg-indigo-500' : 'bg-gray-200'}`} />
+              <div className={`h-2 w-16 rounded-full transition-colors ${step >= 2 ? 'bg-indigo-500' : 'bg-gray-200'}`} />
             </div>
           )}
         </CardHeader>
@@ -301,7 +301,7 @@ export default function AuthPage() {
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button
-                className="w-full bg-teal-600 hover:bg-teal-700 text-white"
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
                 onClick={handleLogin}
                 disabled={loading}
               >
@@ -356,7 +356,7 @@ export default function AuthPage() {
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button
-                className="w-full bg-teal-600 hover:bg-teal-700 text-white"
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
                 onClick={handleNext}
               >
                 Next →
@@ -403,7 +403,7 @@ export default function AuthPage() {
                     id="level"
                     value={form.learning_language_level}
                     onChange={e => update('learning_language_level', e.target.value)}
-                    className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >
                     <option value="">Select your level</option>
                     {LEVELS.map(l => (
@@ -439,7 +439,7 @@ export default function AuthPage() {
                     id="level2"
                     value={form.learning_language_2_level}
                     onChange={e => update('learning_language_2_level', e.target.value)}
-                    className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >
                     <option value="">Select your level</option>
                     {LEVELS.map(l => (
@@ -453,7 +453,7 @@ export default function AuthPage() {
 
               <div className="flex flex-col gap-2">
                 <Button
-                  className="w-full bg-teal-600 hover:bg-teal-700 text-white"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
                   onClick={handleSubmit}
                   disabled={loading}
                 >
@@ -474,7 +474,7 @@ export default function AuthPage() {
             {mode === 'login' ? "Don't have an account? " : 'Already have an account? '}
             <button
               onClick={switchMode}
-              className="text-teal-600 font-medium hover:underline"
+              className="text-indigo-600 font-medium hover:underline"
             >
               {mode === 'login' ? 'Sign up' : 'Sign in'}
             </button>

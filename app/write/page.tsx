@@ -239,7 +239,7 @@ export default function WritePage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading...</p>
         </div>
       </div>
@@ -263,10 +263,10 @@ export default function WritePage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-8">Write in Your Target Language</h1>
           
           {/* Prompt of the Day */}
-          <div className="bg-teal-50 border border-teal-200 rounded-lg p-4 mb-4">
+          <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-4">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold text-teal-600 uppercase tracking-wide mb-1">
+                <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-1">
                   Prompt of the Day
                 </p>
                 <p className="text-sm text-gray-700">{getTodaysPrompt()}</p>
@@ -274,7 +274,7 @@ export default function WritePage() {
               <button
                 type="button"
                 onClick={() => { setFormData(prev => ({ ...prev, content: '' })); setTimeout(() => setFormData(prev => ({ ...prev, content: getTodaysPrompt() })), 0) }}
-                className="shrink-0 text-xs bg-teal-600 hover:bg-teal-700 text-white px-3 py-1.5 rounded-md transition-colors"
+                className="shrink-0 text-xs bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-md transition-colors"
               >
                 Use this
               </button>
@@ -291,7 +291,7 @@ export default function WritePage() {
                 id="language"
                 value={formData.language}
                 onChange={(e) => setFormData(prev => ({ ...prev, language: e.target.value }))}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                 required
               >
                 <option value="">Select a language</option>
@@ -314,7 +314,7 @@ export default function WritePage() {
                 value={formData.prompt}
                 onChange={(e) => setFormData(prev => ({ ...prev, prompt: e.target.value }))}
                 placeholder="e.g. My favorite hobby, A day in my life..."
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               />
             </div>
 
@@ -329,7 +329,7 @@ export default function WritePage() {
                 onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
                 placeholder="Start writing in your target language..."
                 rows={12}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 resize-none"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none"
                 required
               />
               
@@ -345,8 +345,8 @@ export default function WritePage() {
             {/* Pages Notice */}
             <div className="bg-gray-50 p-4 rounded-md">
               <p className="text-sm text-gray-700">
-                Submitting costs <span className="font-medium text-teal-600">1 page</span>. 
-                You have <span className="font-medium text-teal-600">{profile.pages} pages</span>.
+                Submitting costs <span className="font-medium text-indigo-600">1 page</span>. 
+                You have <span className="font-medium text-indigo-600">{profile.pages} pages</span>.
               </p>
               {profile.pages === 0 && (
                 <p className="text-sm text-red-600 mt-1">
@@ -388,7 +388,7 @@ export default function WritePage() {
                 disabled={!canSubmit || submitting}
                 className={`flex-1 py-3 px-4 rounded-md font-medium transition-colors ${
                   canSubmit && !submitting
-                    ? 'bg-teal-600 hover:bg-teal-700 text-white'
+                    ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >

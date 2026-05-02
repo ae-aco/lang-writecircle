@@ -76,7 +76,7 @@ export default async function QueuePage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Corrections Queue</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Help others by correcting submissions written in your native language: 
-            <span className="font-semibold text-teal-600"> {LANGUAGE_NAMES[profile.native_language] || profile.native_language}</span>
+            <span className="font-semibold text-indigo-600"> {LANGUAGE_NAMES[profile.native_language] || profile.native_language}</span>
           </p>
         </div>
 
@@ -121,7 +121,7 @@ export default async function QueuePage() {
 
                     {/* Action Button */}
                     <Link href={`/correct/${submission.id}`}>
-                      <button className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors">
+                      <button className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors">
                         Correct This
                       </button>
                     </Link>

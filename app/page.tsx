@@ -10,7 +10,7 @@ export default function LandingPage() {
           {/* Headline */}
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
             Master Writing in Your
-            <span className="text-teal-600"> Target Language</span>
+            <span className="text-indigo-600"> Target Language</span>
           </h1>
           
           {/* Subheading */}
@@ -23,8 +23,8 @@ export default function LandingPage() {
           {/* Benefits */}
           <div className="grid md:grid-cols-3 gap-8 mb-12 text-left">
             <div className="bg-gray-50 p-6 rounded-lg">
-              <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                 </svg>
               </div>
@@ -37,8 +37,8 @@ export default function LandingPage() {
             </div>
             
             <div className="bg-gray-50 p-6 rounded-lg">
-              <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
@@ -51,8 +51,8 @@ export default function LandingPage() {
             </div>
             
             <div className="bg-gray-50 p-6 rounded-lg">
-              <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mb-4">
-                <BookOpen className="w-6 h-6 text-teal-600" />
+              <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+                <BookOpen className="w-6 h-6 text-indigo-600" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 Earn Pages
@@ -65,7 +65,7 @@ export default function LandingPage() {
           
           {/* CTA Button */}
           <Link href="/auth">
-            <button className="bg-teal-600 hover:bg-teal-700 text-white text-lg font-semibold px-8 py-4 rounded-lg transition-colors transform hover:scale-105 transition-transform">
+            <button className="bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-semibold px-8 py-4 rounded-lg transition-colors transform hover:scale-105 transition-transform">
               Join Now
             </button>
           </Link>

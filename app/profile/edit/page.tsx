@@ -40,7 +40,7 @@ function SearchableSelect({
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white text-left focus:outline-none focus:ring-2 focus:ring-teal-500 flex justify-between items-center"
+        className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 flex justify-between items-center"
       >
         <span className={selected ? 'text-gray-900' : 'text-gray-400'}>
           {selected ? selected.label : placeholder}
@@ -56,7 +56,7 @@ function SearchableSelect({
               placeholder="Search languages..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               autoFocus
             />
           </div>
@@ -75,8 +75,8 @@ function SearchableSelect({
                 <button
                   type="button"
                   onClick={() => { onChange(o.code); setOpen(false); setSearch('') }}
-                  className={`w-full text-left px-3 py-2 text-sm hover:bg-teal-50 hover:text-teal-700 ${
-                    value === o.code ? 'bg-teal-50 text-teal-700 font-medium' : 'text-gray-700'
+                  className={`w-full text-left px-3 py-2 text-sm hover:bg-indigo-50 hover:text-indigo-700 ${
+                    value === o.code ? 'bg-indigo-50 text-indigo-700 font-medium' : 'text-gray-700'
                   }`}
                 >
                   {o.label}
@@ -265,7 +265,7 @@ export default function EditProfilePage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading profile...</p>
         </div>
       </div>
@@ -313,7 +313,7 @@ export default function EditProfilePage() {
                 <select
                   value={learningLevel}
                   onChange={e => setLearningLevel(e.target.value)}
-                  className="border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >
                   <option value="">Select level</option>
                   {LEVELS.map(l => (
@@ -338,7 +338,7 @@ export default function EditProfilePage() {
                 <select
                   value={learningLevel2}
                   onChange={e => setLearningLevel2(e.target.value)}
-                  className="border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   disabled={!learningLanguage2}
                 >
                   <option value="">Select level</option>
@@ -353,7 +353,7 @@ export default function EditProfilePage() {
               <button
                 onClick={saveLanguages}
                 disabled={savingLanguages}
-                className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-md transition-colors disabled:opacity-50"
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md transition-colors disabled:opacity-50"
               >
                 {savingLanguages ? 'Saving...' : 'Save Languages'}
               </button>
@@ -380,7 +380,7 @@ export default function EditProfilePage() {
                 type="password"
                 value={currentPassword}
                 onChange={e => setCurrentPassword(e.target.value)}
-                className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="Enter current password"
               />
             </div>
@@ -393,7 +393,7 @@ export default function EditProfilePage() {
                 type="password"
                 value={newPassword}
                 onChange={e => setNewPassword(e.target.value)}
-                className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="Enter new password"
               />
               <p className="text-xs text-gray-400 mt-1">Must be at least 8 characters</p>
@@ -407,7 +407,7 @@ export default function EditProfilePage() {
                 type="password"
                 value={confirmPassword}
                 onChange={e => setConfirmPassword(e.target.value)}
-                className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="Confirm new password"
               />
             </div>
@@ -416,7 +416,7 @@ export default function EditProfilePage() {
               <button
                 onClick={savePassword}
                 disabled={savingPassword || !currentPassword || !newPassword || !confirmPassword}
-                className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-md transition-colors disabled:opacity-50"
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md transition-colors disabled:opacity-50"
               >
                 {savingPassword ? 'Updating...' : 'Save Password'}
               </button>
@@ -455,7 +455,7 @@ export default function EditProfilePage() {
               <button
                 onClick={saveBio}
                 disabled={savingBio}
-                className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-md transition-colors disabled:opacity-50"
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md transition-colors disabled:opacity-50"
               >
                 {savingBio ? 'Saving...' : 'Save Bio'}
               </button>

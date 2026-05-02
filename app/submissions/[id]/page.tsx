@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter, useParams } from 'next/navigation'
 
-import '@/lib/languages'
+import { LANGUAGE_NAMES } from '@/lib/languages'
 
 interface Submission {
   id: string
@@ -171,7 +171,7 @@ export default function SubmissionDetailPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading submission...</p>
         </div>
       </div>
@@ -195,7 +195,7 @@ export default function SubmissionDetailPage() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Submission</h1>
           {correction && (
-            <p className="text-lg text-gray-600 mb-4">Corrected by: <span className="font-medium text-teal-600">{correction.corrector.username}</span></p>
+            <p className="text-lg text-gray-600 mb-4">Corrected by: <span className="font-medium text-indigo-600">{correction.corrector.username}</span></p>
           )}
           {submission.prompt && (
             <p className="text-lg text-gray-600">Prompt: {submission.prompt}</p>
@@ -238,11 +238,11 @@ export default function SubmissionDetailPage() {
             {correction.feedback_notes && (
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Corrector's Notes</h2>
-                <blockquote className="border-l-4 border-teal-500 pl-4 italic text-gray-700 bg-teal-50 p-4 rounded-r-md">
+                <blockquote className="border-l-4 border-indigo-500 pl-4 italic text-gray-700 bg-indigo-50 p-4 rounded-r-md">
                   <p className="whitespace-pre-wrap">{correction.feedback_notes}</p>
                 </blockquote>
                 <p className="mt-3 text-sm text-gray-600">
-                  From: <span className="font-medium text-teal-600">{correction.corrector.username}</span>
+                  From: <span className="font-medium text-indigo-600">{correction.corrector.username}</span>
                 </p>
               </div>
             )}
@@ -251,12 +251,12 @@ export default function SubmissionDetailPage() {
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <div className="text-center">
                 <p className="text-gray-600 mb-4">
-                  Was this correction helpful? Send a thank you to <span className="font-medium text-teal-600">{correction.corrector.username}</span>!
+                  Was this correction helpful? Send a thank you to <span className="font-medium text-indigo-600">{correction.corrector.username}</span>!
                 </p>
                 {!thankYouSent ? (
                   <button
                     onClick={() => setThankYouSent(true)}
-                    className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-md font-medium transition-colors"
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md font-medium transition-colors"
                   >
                     Thank You
                   </button>

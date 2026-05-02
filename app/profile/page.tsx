@@ -107,9 +107,9 @@ export default async function ProfilePage() {
             <div className="space-y-6">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Pages Balance</h3>
-                <div className="bg-teal-50 rounded-lg p-4 text-center">
-                  <p className="text-3xl font-bold text-teal-600">{profile.pages}</p>
-                  <p className="text-sm text-teal-700">pages available</p>
+                <div className="bg-indigo-50 rounded-lg p-4 text-center">
+                  <p className="text-3xl font-bold text-indigo-600">{profile.pages}</p>
+                  <p className="text-sm text-indigo-700">pages available</p>
                 </div>
               </div>
 
@@ -135,7 +135,7 @@ export default async function ProfilePage() {
 
           {/* Edit Profile Button */}
           <div className="mt-8 pt-6 border-t border-gray-200">
-            <Link href="/profile/edit" className="w-full md:w-auto inline-block px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-md transition-colors text-center">
+            <Link href="/profile/edit" className="w-full md:w-auto inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md transition-colors text-center">
               Edit Profile
             </Link>
           </div>
