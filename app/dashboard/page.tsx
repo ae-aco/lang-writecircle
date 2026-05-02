@@ -107,7 +107,7 @@ export default async function DashboardPage() {
   // Fetch recent submissions
   const { data: recentSubmissions } = await supabase
     .from('submissions')
-    .select('id, content, language, status, created_at')
+    .select('id, content, prompt, language, status, created_at')
     .eq('author_id', user.id)
     .order('created_at', { ascending: false })
     .limit(3)
@@ -216,8 +216,8 @@ export default async function DashboardPage() {
             <span className="text-2xl mr-2">✨</span>
             <h2 className="text-lg font-semibold text-gray-900">Prompt of the Day</h2>
           </div>
-          <p className="text-gray-700 mb-4 italic">
-            "{getTodaysPrompt()}"
+          <p className="text-gray-700 mb-4">
+            {getTodaysPrompt()}
           </p>
           <Link
             href="/write"
@@ -253,8 +253,8 @@ export default async function DashboardPage() {
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
                           <p className="text-gray-900 font-medium mb-1">
-                            {submission.content.substring(0, 40)}
-                            {submission.content.length > 40 ? '...' : ''}
+                            {submission.prompt || submission.content.substring(0, 40)}
+                            {(!submission.prompt && submission.content.length > 40) ? '...' : ''}
                           </p>
                           <p className="text-sm text-gray-500">
                             {LANGUAGE_NAMES[submission.language] || submission.language}
@@ -267,8 +267,8 @@ export default async function DashboardPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <p className="text-gray-900 font-medium mb-1">
-                          {submission.content.substring(0, 40)}
-                          {submission.content.length > 40 ? '...' : ''}
+                          {submission.prompt || submission.content.substring(0, 40)}
+                          {(!submission.prompt && submission.content.length > 40) ? '...' : ''}
                         </p>
                         <p className="text-sm text-gray-500">
                           {LANGUAGE_NAMES[submission.language] || submission.language}
