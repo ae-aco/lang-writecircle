@@ -213,7 +213,9 @@ export default function SubmissionDetailPage() {
             <div className="flex items-center space-x-4 text-sm text-gray-600">
               <span>{LANGUAGE_NAMES[submission.language] || submission.language}</span>
               <span>•</span>
-              <span>{new Date(submission.created_at).toLocaleDateString()}</span>
+              <span>{new Date(submission.created_at).toLocaleDateString('en-GB', { 
+  year: 'numeric', month: 'long', day: 'numeric' 
+})}</span>
             </div>
             <div className="flex items-center space-x-3">
               {correction && (
