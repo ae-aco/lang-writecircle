@@ -9,6 +9,8 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChevronDown } from 'lucide-react'
 import { LANGUAGES, LANGUAGE_NAMES, LEVELS } from '@/lib/languages'
+import Navbar from '@/components/ui/navbar'
+import Footer from '@/components/ui/footer'
 
 function LevelTooltip() {
   const [open, setOpen] = useState(false)
@@ -250,7 +252,9 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-10">
+    <div className="min-h-screen bg-gray-50">
+      <Navbar />
+      <div className="flex items-center justify-center px-4 py-10 min-h-[calc(100vh-64px)]">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-indigo-600">
@@ -482,6 +486,8 @@ export default function AuthPage() {
 
         </CardContent>
       </Card>
+      </div>
+      <Footer />
     </div>
   )
 }

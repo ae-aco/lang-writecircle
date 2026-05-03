@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter, useParams } from 'next/navigation'
+import Navbar from '@/components/ui/navbar'
+import Footer from '@/components/ui/footer'
 
 interface Submission {
   id: string
@@ -169,6 +171,7 @@ export default function CorrectPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -243,6 +246,7 @@ export default function CorrectPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

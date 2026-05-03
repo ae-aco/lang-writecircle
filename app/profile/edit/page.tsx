@@ -5,6 +5,8 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { ChevronDown } from 'lucide-react'
 import { LANGUAGES, LANGUAGE_NAMES, LEVELS } from '@/lib/languages'
+import Navbar from '@/components/ui/navbar'
+import Footer from '@/components/ui/footer'
 
 interface UserProfile {
   id: string
@@ -274,6 +276,7 @@ export default function EditProfilePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navbar />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Edit Profile</h1>
@@ -469,6 +472,7 @@ export default function EditProfilePage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

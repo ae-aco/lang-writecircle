@@ -2,6 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { LANGUAGE_NAMES } from '@/lib/languages'
+import Navbar from '@/components/ui/navbar'
+import Footer from '@/components/ui/footer'
 
 const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
@@ -133,8 +135,10 @@ export default async function DashboardPage() {
   const today = new Date().toISOString().split('T')[0]
 
   return (
-    <div className="min-h-screen bg-[#EDF2FB] p-8">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#EDF2FB]">
+      <Navbar />
+      <div className="p-8">
+        <div className="max-w-4xl mx-auto space-y-6">
         {/* Section 1 - Welcome Header */}
         <div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -294,7 +298,9 @@ export default async function DashboardPage() {
             </div>
           )}
         </div>
+        </div>
       </div>
+      <Footer />
     </div>
   )
 }

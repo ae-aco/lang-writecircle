@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { LANGUAGES, LANGUAGE_NAMES } from '@/lib/languages'
+import Navbar from '@/components/ui/navbar'
+import Footer from '@/components/ui/footer'
 
 interface UserProfile {
   pages: number
@@ -264,6 +266,7 @@ export default function WritePage() {
 
   return (
     <div className="min-h-screen bg-[#EDF2FB]">
+      <Navbar />
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Heading */}
         <h1 className="text-3xl font-bold text-gray-900 text-center mb-2">Write Your Story</h1>
@@ -408,6 +411,7 @@ export default function WritePage() {
           💡 Tip: Don't worry about making mistakes! That's how we learn. The community is here to help.
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

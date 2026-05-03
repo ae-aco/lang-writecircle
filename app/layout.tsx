@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/ui/navbar";
-import Footer from "@/components/ui/footer";
 
 export const metadata: Metadata = {
   title: "WriteCircle",
@@ -20,10 +18,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body style={{ fontFamily: 'Inter, sans-serif' }} className="min-h-full flex flex-col">
-        <Navbar />
+      <body style={{ fontFamily: 'Inter, sans-serif' }} className="min-h-full">
         {children}
-        <Footer />
       </body>
     </html>
   );

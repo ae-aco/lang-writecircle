@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { MessageSquare } from 'lucide-react'
 
 import { LANGUAGE_NAMES } from '@/lib/languages'
+import Navbar from '@/components/ui/navbar'
+import Footer from '@/components/ui/footer'
 
 interface Correction {
   id: string
@@ -66,6 +68,7 @@ export default async function CorrectionsPage() {
 
   return (
     <div className="min-h-screen bg-[#EDF2FB]">
+      <Navbar />
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="text-center mb-8">
@@ -142,6 +145,7 @@ export default async function CorrectionsPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   )
 }

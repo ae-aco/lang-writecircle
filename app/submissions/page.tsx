@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { LANGUAGE_NAMES } from '@/lib/languages'
 import { CheckCircle, Clock, PenLine } from 'lucide-react'
+import Navbar from '@/components/ui/navbar'
+import Footer from '@/components/ui/footer'
 
 interface Submission {
   id: string
@@ -81,6 +83,7 @@ export default async function SubmissionsPage() {
 
   return (
     <div className="min-h-screen bg-[#EDF2FB]">
+      <Navbar />
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="text-center mb-8">
@@ -194,6 +197,7 @@ export default async function SubmissionsPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   )
 }

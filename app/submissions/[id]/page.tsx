@@ -5,6 +5,8 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter, useParams } from 'next/navigation'
 
 import { LANGUAGE_NAMES } from '@/lib/languages'
+import Navbar from '@/components/ui/navbar'
+import Footer from '@/components/ui/footer'
 
 interface Submission {
   id: string
@@ -190,6 +192,7 @@ export default function SubmissionDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#EDF2FB]">
+      <Navbar />
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Back Link */}
         <div className="mb-6">
@@ -325,6 +328,7 @@ export default function SubmissionDetailPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   )
 }
