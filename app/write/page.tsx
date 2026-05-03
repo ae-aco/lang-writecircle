@@ -263,145 +263,149 @@ export default function WritePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">Write in Your Target Language</h1>
-          
-          {/* Prompt of the Day */}
-          <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-4">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-1">
-                  Prompt of the Day
-                </p>
-                <p className="text-sm text-gray-700">{getTodaysPrompt()}</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => { setFormData(prev => ({ ...prev, content: '' })); setTimeout(() => setFormData(prev => ({ ...prev, content: getTodaysPrompt() })), 0) }}
-                className="shrink-0 text-xs bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-md transition-colors"
-              >
-                Use this
-              </button>
-            </div>
-          </div>
-          
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Language Selector */}
+    <div className="min-h-screen bg-[#EDF2FB]">
+      <div className="max-w-3xl mx-auto px-4 py-8">
+        {/* Heading */}
+        <h1 className="text-3xl font-bold text-gray-900 text-center mb-2">Write Your Story</h1>
+        <p className="text-gray-600 text-center mb-6">Express yourself in your target language. Take your time, be creative.</p>
+        
+        {/* Pages balance banner */}
+        <div className="bg-amber-50 border border-amber-200 rounded-full px-4 py-2 text-sm text-amber-800 text-center mb-8">
+          📄 You have {profile.pages} pages · This submission will cost 1 page
+        </div>
+        
+        {/* Prompt of the Day */}
+        <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 mb-4">
+          <div className="flex items-start justify-between gap-3">
             <div>
-              <label htmlFor="language" className="block text-sm font-medium text-gray-700 mb-2">
-                Language
-              </label>
-              <select
-                id="language"
-                value={formData.language}
-                onChange={(e) => setFormData(prev => ({ ...prev, language: e.target.value }))}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                required
-              >
-                <option value="">Select a language</option>
-                {getAvailableLanguages().map(lang => (
-                  <option key={lang.code} value={lang.code}>
-                    {LANGUAGE_NAMES[lang.code] || lang.code}
-                  </option>
-                ))}
-              </select>
+              <p className="text-xs font-semibold text-gray-700 mb-1">
+                ✨ Prompt of the Day
+              </p>
+              <p className="text-sm text-gray-600">{getTodaysPrompt()}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => { setFormData(prev => ({ ...prev, prompt: getTodaysPrompt() })) }}
+              className="shrink-0 text-xs bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-md transition-colors"
+            >
+              Use this
+            </button>
+          </div>
+        </div>
+        
+        {/* Main writing card */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <form onSubmit={handleSubmit}>
+            {/* Language selector */}
+            <div className="mb-6">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-sm text-gray-600">Writing in:</span>
+                <select
+                  value={formData.language}
+                  onChange={(e) => setFormData(prev => ({ ...prev, language: e.target.value }))}
+                  className="border border-gray-200 rounded-full px-3 py-1 text-sm focus:outline-none focus:ring-0"
+                  required
+                >
+                  <option value="">Select language</option>
+                  {getAvailableLanguages().map(lang => (
+                    <option key={lang.code} value={lang.code}>
+                      {LANGUAGE_NAMES[lang.code] || lang.code}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             {/* Prompt/Title */}
-            <div>
+            <div className="mb-6">
               <label htmlFor="prompt" className="block text-sm font-medium text-gray-700 mb-2">
-                Prompt or Title <span className="text-gray-400 font-normal">(optional)</span>
+                Prompt or Title:
               </label>
               <input
                 type="text"
                 id="prompt"
                 value={formData.prompt}
                 onChange={(e) => setFormData(prev => ({ ...prev, prompt: e.target.value }))}
-                placeholder="e.g. My favorite hobby, A day in my life..."
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="e.g., My weekend adventure"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               />
             </div>
 
-            {/* Content Textarea */}
-            <div>
-              <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
-                Your Writing
-              </label>
+            {/* Content textarea */}
+            <div className="mb-6">
               <textarea
                 id="content"
                 value={formData.content}
                 onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-                placeholder="Start writing in your target language..."
-                rows={12}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none"
+                placeholder="Start writing... Share your thoughts, tell a story, describe your day..."
+                className="w-full min-h-64 resize-none border-0 focus:ring-0 text-gray-800 text-base leading-relaxed"
                 required
               />
-              
-              {/* Word Count */}
-              <div className="mt-2 text-right">
-                <span className={`text-sm ${isOverLimit ? 'text-red-600 font-medium' : 'text-gray-600'}`}>
+            </div>
+
+            {/* Bottom toolbar */}
+            <div className="border-t border-gray-100 pt-4 mt-4">
+              <div className="flex items-center justify-between">
+                {/* Word count */}
+                <span className={`text-sm ${isOverLimit ? 'text-red-600 font-medium' : 'text-gray-500'}`}>
                   {wordCount} / 500 words
-                  {isOverLimit && ' (exceeds limit)'}
                 </span>
+                
+                <div className="flex items-center gap-3">
+                  {/* Save Draft button */}
+                  <button
+                    type="button"
+                    onClick={handleSaveDraft}
+                    disabled={savingDraft || !formData.content.trim()}
+                    className={`border border-gray-300 text-gray-600 hover:bg-gray-50 px-4 py-2 rounded-lg text-sm transition-colors ${
+                      (savingDraft || !formData.content.trim()) ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                  >
+                    {savingDraft ? 'Saving...' : 'Save Draft'}
+                  </button>
+                  
+                  {/* Submit button */}
+                  <button
+                    type="submit"
+                    disabled={!canSubmit || submitting}
+                    className={`bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      (!canSubmit || submitting) ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                  >
+                    {submitting ? 'Submitting...' : 'Submit for Feedback'}
+                  </button>
+                </div>
               </div>
             </div>
 
             {/* Pages Notice */}
-            <div className="bg-gray-50 p-4 rounded-md">
-              <p className="text-sm text-gray-700">
-                Submitting costs <span className="font-medium text-indigo-600">1 page</span>. 
-                You have <span className="font-medium text-indigo-600">{profile.pages} pages</span>.
-              </p>
-              {profile.pages === 0 && (
-                <p className="text-sm text-red-600 mt-1">
+            {profile.pages === 0 && (
+              <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-sm text-red-700">
                   You need more pages to submit. Help others by correcting their writing to earn pages.
                 </p>
-              )}
-            </div>
+              </div>
+            )}
 
             {/* Error Message */}
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+              <div className="mt-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
                 {error}
               </div>
             )}
 
             {/* Success Message */}
             {successMessage && (
-              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md">
+              <div className="mt-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
                 {successMessage}
               </div>
             )}
-
-            {/* Buttons */}
-            <div className="flex gap-4">
-              <button
-                type="button"
-                onClick={handleSaveDraft}
-                disabled={savingDraft || !formData.content.trim()}
-                className={`flex-1 py-3 px-4 rounded-md font-medium transition-colors ${
-                  !savingDraft && formData.content.trim()
-                    ? 'bg-gray-600 hover:bg-gray-700 text-white'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                }`}
-              >
-                {savingDraft ? 'Saving...' : 'Save Draft'}
-              </button>
-              <button
-                type="submit"
-                disabled={!canSubmit || submitting}
-                className={`flex-1 py-3 px-4 rounded-md font-medium transition-colors ${
-                  canSubmit && !submitting
-                    ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                }`}
-              >
-                {submitting ? 'Submitting...' : 'Submit for Review'}
-              </button>
-            </div>
           </form>
+        </div>
+        
+        {/* Tip banner */}
+        <div className="bg-white border border-gray-100 rounded-xl p-4 text-center text-sm text-gray-500 mt-6">
+          💡 Tip: Don't worry about making mistakes! That's how we learn. The community is here to help.
         </div>
       </div>
     </div>
