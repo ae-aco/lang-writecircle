@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WriteCircle - Product Concept
 
-## Getting Started
+A community-driven language learning platform where users practice writing in their target language and receive corrections from native speakers.
 
-First, run the development server:
+🔗 **Live Demo:** coming soon
+
+## About
+
+WriteCircle was inspired by heritage speakers looking for ways to improve their heritage language — a pain point underserved by mainstream language apps. 
+The app focuses on reading and writing, with peer correction at its core.
+
+The credit system ("Pages") creates a virtuous cycle: earn pages by correcting others, spend pages to submit your own writing for correction.
+
+## Tech Stack
+
+- **Frontend:** Next.js 15 (App Router), Tailwind CSS, shadcn/ui
+- **Backend:** Supabase (PostgreSQL, Auth, RLS)
+- **Language:** TypeScript
+- **Deployment:** Vercel
+
+## Key Features
+
+- Two-step signup with native/learning language selection and CEFR level
+- Peer correction queue filtered by native language
+- Word-level diff view showing corrections with red/green highlights
+- Pages system — earn by correcting, spend to submit
+- Daily streak tracking with weekly calendar
+- Prompt of the Day to inspire writing
+- Challenges page (coming soon)
+- 50+ languages supported including Swahili, Twi, Yoruba, Ewe and more
+
+## Product Decisions Worth Noting
+
+- **Pages over credits** — "Pages" ties to the journal/exercise book metaphor of language learning, more meaningful than a generic credit system
+- **Async over real-time** — thoughtful corrections beat rushed chat
+- **Native language queue filtering** — users only see posts they're qualified to correct, maintaining quality
+- **LCS diff algorithm** — used Longest Common Subsequence for word-level diff rendering, same approach as Git
+
+## Running Locally
+
+```bash
+git clone https://github.com/YOUR_USERNAME/lang-writecircle
+cd lang-writecircle
+npm install
+```
+
+Create `.env.local`:
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+```
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## My Contributions
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Product**
+- Defined requirements and wrote user stories with acceptance criteria
+- Prioritised backlog using MoSCoW method
+- Made key product decisions (pages system, language variants, async model)
+- Designed wireframes and iterated on UI in Figma
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Technical**
+- Built full-stack Next.js application with Supabase
+- Designed database schema with RLS policies
+- Implemented auth flow with language preference onboarding
+- Built diff algorithm for correction view
+- Set up streak tracking with daily activity logging
 
-## Learn More
+## Roadmap
 
-To learn more about Next.js, take a look at the following resources:
+- [ ] Drafts accessible from dashboard
+- [ ] Deactivate account
+- [ ] Change email address  
+- [ ] Dark/light mode
+- [ ] File attachments (images, audio)
+- [ ] AI-powered correction explanations
+- [ ] Writing challenges system
+- [ ] Second native language support
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tools Used
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Claude AI, Windsurf (Cascade), Figma Make, Supabase, Vercel, GitHub Projects
