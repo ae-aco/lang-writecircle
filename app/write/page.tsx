@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { LANGUAGES, LANGUAGE_NAMES } from '@/lib/languages'
@@ -59,7 +59,7 @@ function getTodaysPrompt(): string {
   return PROMPTS[dayIndex % PROMPTS.length]
 }
 
-export default function WritePage() {
+function WritePageContent() {
   const [user, setUser] = useState<any>(null)
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
@@ -413,5 +413,13 @@ export default function WritePage() {
       </div>
       <Footer />
     </div>
+  )
+}
+
+export default function WritePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#EDF2FB] flex items-center justify-center"><p className="text-gray-500">Loading...</p></div>}>
+      <WritePageContent />
+    </Suspense>
   )
 }
