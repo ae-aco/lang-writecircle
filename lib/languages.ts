@@ -19,10 +19,10 @@ export const LANGUAGE_NAMES: Record<string, string> = {
 }
 
 export const LEVELS = [
-  { code: 'beginner', label: 'Beginner' },
-  { code: 'intermediate', label: 'Intermediate' }, 
-  { code: 'advanced', label: 'Advanced' },
-  { code: 'fluent', label: 'Fluent' }
+  { code: 'beginner', label: 'Beginner', cefr: 'A1/A2 — just starting out' },
+  { code: 'intermediate', label: 'Intermediate', cefr: 'B1/B2 — can hold a conversation' },
+  { code: 'advanced', label: 'Advanced', cefr: 'C1 — comfortable with complex topics' },
+  { code: 'fluent', label: 'Fluent', cefr: 'C2 — near native level' },
 ]
 
 export const LANGUAGES = [
