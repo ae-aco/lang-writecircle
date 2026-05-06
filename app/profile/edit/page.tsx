@@ -108,6 +108,13 @@ export default function EditProfilePage() {
   const [learningLanguage2, setLearningLanguage2] = useState('')
   const [learningLevel2, setLearningLevel2] = useState('')
   const [bio, setBio] = useState('')
+  
+  // Email states
+  const [currentEmail, setCurrentEmail] = useState('')
+  const [newEmail, setNewEmail] = useState('')
+  
+  // Account states
+  const [showDeactivateConfirm, setShowDeactivateConfirm] = useState(false)
 
   // Password states
   const [currentPassword, setCurrentPassword] = useState('')
@@ -121,11 +128,17 @@ export default function EditProfilePage() {
   const [passwordError, setPasswordError] = useState('')
   const [bioMessage, setBioMessage] = useState('')
   const [bioError, setBioError] = useState('')
+  const [emailMessage, setEmailMessage] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [accountMessage, setAccountMessage] = useState('')
+  const [accountError, setAccountError] = useState('')
 
   // Loading states
   const [savingLanguages, setSavingLanguages] = useState(false)
   const [savingPassword, setSavingPassword] = useState(false)
   const [savingBio, setSavingBio] = useState(false)
+  const [savingEmail, setSavingEmail] = useState(false)
+  const [deactivatingAccount, setDeactivatingAccount] = useState(false)
 
   useEffect(() => {
     fetchProfile()
@@ -155,6 +168,8 @@ export default function EditProfilePage() {
       setLearningLanguage2(profileData.learning_language_2 || '')
       setLearningLevel2(profileData.learning_language_2_level || '')
       setBio(profileData.bio || '')
+      setCurrentEmail(user.email || '')
+      setNewEmail(user.email || '')
     } catch (error) {
       console.error('Error fetching profile:', error)
     } finally {
@@ -260,6 +275,68 @@ export default function EditProfilePage() {
       setBioError('Failed to save bio')
     } finally {
       setSavingBio(false)
+    }
+  }
+
+  const updateEmail = async () => {
+    setSavingEmail(true)
+    setEmailMessage('')
+    setEmailError('')
+
+    try {
+      // Basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(newEmail)) {
+        setEmailError('Please enter a valid email address')
+        setSavingEmail(false)
+        return
+      }
+
+      if (newEmail === currentEmail) {
+        setEmailError('New email must be different from current email')
+        setSavingEmail(false)
+        return
+      }
+
+      const { error } = await supabase.auth.updateUser({ email: newEmail })
+
+      if (error) throw error
+      
+      setEmailMessage(`Confirmation email sent to ${newEmail}. Please click the link to confirm the change.`)
+      setCurrentEmail(newEmail)
+      setTimeout(() => setEmailMessage(''), 5000)
+    } catch (error) {
+      console.error('Error updating email:', error)
+      setEmailError('Failed to update email')
+    } finally {
+      setSavingEmail(false)
+    }
+  }
+
+  const deactivateAccount = async () => {
+    setDeactivatingAccount(true)
+    setAccountMessage('')
+    setAccountError('')
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) throw new Error('Not authenticated')
+
+      // Update profiles table to set is_active = false
+      const { error } = await supabase
+        .from('profiles')
+        .update({ is_active: false })
+        .eq('id', user.id)
+
+      if (error) throw error
+
+      // Sign out and redirect
+      await supabase.auth.signOut()
+      router.push('/')
+    } catch (error) {
+      console.error('Error deactivating account:', error)
+      setAccountError('Failed to deactivate account')
+      setDeactivatingAccount(false)
     }
   }
 
@@ -434,7 +511,7 @@ export default function EditProfilePage() {
         </div>
 
         {/* Bio Section */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Bio</h2>
           
           <div className="space-y-6">
@@ -468,6 +545,113 @@ export default function EditProfilePage() {
               {bioError && (
                 <span className="text-red-600">{bioError}</span>
               )}
+            </div>
+          </div>
+        </div>
+
+        {/* Email Address Section */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Email Address</h2>
+          
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Current Email
+              </label>
+              <div className="text-gray-900 py-2 px-3 bg-gray-50 border border-gray-200 rounded-md">
+                {currentEmail}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                New Email
+              </label>
+              <input
+                type="email"
+                value={newEmail}
+                onChange={e => setNewEmail(e.target.value)}
+                className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                placeholder="Enter new email address"
+              />
+            </div>
+
+            <div className="flex items-center gap-4">
+              <button
+                onClick={updateEmail}
+                disabled={savingEmail}
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md transition-colors disabled:opacity-50"
+              >
+                {savingEmail ? 'Updating...' : 'Update Email'}
+              </button>
+              {emailMessage && (
+                <span className="text-green-600 font-medium">{emailMessage}</span>
+              )}
+              {emailError && (
+                <span className="text-red-600">{emailError}</span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Account Section */}
+        <div className="bg-white rounded-xl shadow-sm border border-red-200 p-6">
+          <h2 className="text-xl font-semibold text-red-700 mb-6">Account</h2>
+          
+          <div className="space-y-8">
+            {/* Deactivate Subsection */}
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Deactivate Account</h3>
+              <p className="text-sm text-gray-500 mb-4">
+                Temporarily disable your account. You can reactivate by logging back in.
+              </p>
+              
+              {!showDeactivateConfirm ? (
+                <button
+                  onClick={() => setShowDeactivateConfirm(true)}
+                  className="px-4 py-2 border border-red-300 text-red-600 hover:bg-red-50 font-medium rounded-md transition-colors"
+                >
+                  Deactivate Account
+                </button>
+              ) : (
+                <div className="bg-red-50 border border-red-200 rounded-md p-4">
+                  <p className="text-sm text-gray-700 mb-4">
+                    Are you sure you want to deactivate your account? You can reactivate by logging in again.
+                  </p>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={deactivateAccount}
+                      disabled={deactivatingAccount}
+                      className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-md transition-colors disabled:opacity-50"
+                    >
+                      {deactivatingAccount ? 'Deactivating...' : 'Yes, deactivate'}
+                    </button>
+                    <button
+                      onClick={() => setShowDeactivateConfirm(false)}
+                      className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-md transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+              
+              {accountMessage && (
+                <p className="text-green-600 font-medium mt-4">{accountMessage}</p>
+              )}
+              {accountError && (
+                <p className="text-red-600 mt-4">{accountError}</p>
+              )}
+            </div>
+
+            {/* Divider */}
+            <div className="border-t border-gray-200"></div>
+
+            {/* Delete Subsection */}
+            <div>
+              <p className="text-sm text-gray-500">
+                Want to permanently delete your account? Email us at <a href="mailto:hello@writecircle.com" className="text-indigo-600 hover:text-indigo-700">hello@writecircle.com</a> and we'll take care of it within 48 hours.
+              </p>
             </div>
           </div>
         </div>
