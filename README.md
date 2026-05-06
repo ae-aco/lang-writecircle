@@ -2,7 +2,7 @@
 
 A community-driven language learning platform where users practice writing in their target language and receive corrections from native speakers.
 
-**[Live Demo](lang-writecircle.vercel.app)**
+**[Live Demo](https://lang-writecircle.vercel.app/)**
 
 ## About
 
