@@ -11,6 +11,7 @@ export default function Navbar() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [notificationCount, setNotificationCount] = useState(0)
   const router = useRouter()
   const pathname = usePathname()
   const supabase = createClient()
@@ -20,6 +21,17 @@ export default function Navbar() {
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession()
       setUser(session?.user || null)
+      
+      // Fetch notification count if user is logged in
+      if (session?.user) {
+        const { count } = await supabase
+          .from('notifications')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', session.user.id)
+          .eq('read', false)
+        setNotificationCount(count || 0)
+      }
+      
       setLoading(false)
     }
 
@@ -27,8 +39,21 @@ export default function Navbar() {
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
         setUser(session?.user || null)
+        
+        // Fetch notification count if user is logged in
+        if (session?.user) {
+          const { count } = await supabase
+            .from('notifications')
+            .select('*', { count: 'exact', head: true })
+            .eq('user_id', session.user.id)
+            .eq('read', false)
+          setNotificationCount(count || 0)
+        } else {
+          setNotificationCount(0)
+        }
+        
         setLoading(false)
       }
     )
@@ -99,9 +124,12 @@ export default function Navbar() {
                 <div className="relative profile-dropdown">
                   <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="flex items-center justify-center w-8 h-8 text-[#6b7280] hover:text-[#6366f1] p-2 rounded-md transition-colors"
+                    className="flex items-center justify-center w-8 h-8 text-[#6b7280] hover:text-[#6366f1] p-2 rounded-md transition-colors relative"
                   >
                     <User className="w-5 h-5" />
+                    {notificationCount > 0 && (
+                      <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    )}
                   </button>
                   
                   {isDropdownOpen && (

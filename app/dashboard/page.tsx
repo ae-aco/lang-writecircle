@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { LANGUAGE_NAMES } from '@/lib/languages'
+import { PenLine } from 'lucide-react'
 import Navbar from '@/components/ui/navbar'
 import Footer from '@/components/ui/footer'
 
@@ -86,7 +87,7 @@ export default async function DashboardPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('*')
+    .select('hide_streak, *')
     .eq('id', user.id)
     .single()
 
@@ -113,6 +114,14 @@ export default async function DashboardPage() {
     .eq('author_id', user.id)
     .order('created_at', { ascending: false })
     .limit(3)
+
+  const { data: drafts } = await supabase
+    .from('submissions')
+    .select('id, content, prompt, language, created_at')
+    .eq('author_id', user.id)
+    .eq('status', 'draft')
+    .order('created_at', { ascending: false })
+    .limit(2)
 
   // Get user streak
   const { data: streakData } = await supabase.rpc('get_user_streak', { user_id: user.id })
@@ -149,45 +158,46 @@ export default async function DashboardPage() {
           </p>
         </div>
 
-        {/* Section 2 - Streak Calendar */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center mb-4">
-            <svg className="w-6 h-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <h2 className="text-lg font-semibold text-gray-900">Your Streak</h2>
-          </div>
-          
-          <div className="grid grid-cols-7 gap-2 mb-4">
-            {weekDates.map((date, index) => {
-              const dateStr = date.toISOString().split('T')[0]
-              const isToday = dateStr === today
-              const hasActivity = activityDates.has(dateStr)
-              
-              return (
-                <div key={index} className="text-center">
-                  <div className="text-xs text-gray-500 mb-1">
-                    {DAY_NAMES[date.getDay()]}
+        {!profile.hide_streak && (
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <div className="flex items-center mb-4">
+              <svg className="w-6 h-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <h2 className="text-lg font-semibold text-gray-900">Your Streak</h2>
+            </div>
+            
+            <div className="grid grid-cols-7 gap-2 mb-4">
+              {weekDates.map((date, index) => {
+                const dateStr = date.toISOString().split('T')[0]
+                const isToday = dateStr === today
+                const hasActivity = activityDates.has(dateStr)
+                
+                return (
+                  <div key={index} className="text-center">
+                    <div className="text-xs text-gray-500 mb-1">
+                      {DAY_NAMES[date.getDay()]}
+                    </div>
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-1 ${
+                      isToday ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700'
+                    }`}>
+                      {date.getDate()}
+                    </div>
+                    <div className={`w-2 h-2 rounded-full mx-auto ${
+                      hasActivity ? 'bg-indigo-600' : 'bg-gray-300'
+                    }`} />
                   </div>
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-1 ${
-                    isToday ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700'
-                  }`}>
-                    {date.getDate()}
-                  </div>
-                  <div className={`w-2 h-2 rounded-full mx-auto ${
-                    hasActivity ? 'bg-indigo-600' : 'bg-gray-300'
-                  }`} />
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
+            
+            <div className="text-center">
+              <span className="text-lg font-semibold text-gray-900">
+                🔥 {currentStreak} day streak
+              </span>
+            </div>
           </div>
-          
-          <div className="text-center">
-            <span className="text-lg font-semibold text-gray-900">
-              🔥 {currentStreak} day streak
-            </span>
-          </div>
-        </div>
+        )}
 
         {/* Section 3 - Help Others Learn CTA */}
         <div className="bg-teal-50 border border-teal-100 rounded-xl p-6 shadow-sm">
@@ -230,6 +240,50 @@ export default async function DashboardPage() {
             Start Writing
           </Link>
         </div>
+
+        {drafts && drafts.length > 0 && (
+          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center">
+                <PenLine className="w-5 h-5 text-indigo-600 mr-2" />
+                <h2 className="text-lg font-semibold text-gray-900">Continue Writing</h2>
+              </div>
+              <Link
+                href="/submissions"
+                className="text-indigo-600 hover:text-indigo-700 font-medium"
+              >
+                See all
+              </Link>
+            </div>
+            
+            <div className="space-y-3">
+              {drafts.map((draft) => (
+                <div
+                  key={draft.id}
+                  className="border border-gray-100 rounded-lg p-4 hover:bg-gray-50 transition-colors"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <p className="text-gray-900 font-medium mb-1">
+                        {draft.prompt || draft.content.substring(0, 40)}
+                        {(!draft.prompt && draft.content.length > 40) ? '...' : ''}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {LANGUAGE_NAMES[draft.language] || draft.language}
+                      </p>
+                    </div>
+                    <Link
+                      href={`/write?draft=${draft.id}`}
+                      className="text-indigo-600 hover:text-indigo-700 font-medium"
+                    >
+                      Continue →
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Section 5 - My Submissions */}
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">

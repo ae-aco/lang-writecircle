@@ -5,6 +5,7 @@ import { LANGUAGE_NAMES } from '@/lib/languages'
 import { MessageSquare } from 'lucide-react'
 import Navbar from '@/components/ui/navbar'
 import Footer from '@/components/ui/footer'
+import StreakToggle from '@/components/ui/streak-toggle'
 
 const LEVEL_LABELS = {
   beginner: 'Beginner',
@@ -223,11 +224,7 @@ export default async function ProfilePage() {
               <p className="text-sm text-gray-500">Don't show streak counter on dashboard</p>
             </div>
             
-            {/* Simple toggle (styled checkbox) */}
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" className="sr-only peer" />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
-            </label>
+            <StreakToggle initialValue={profile.hide_streak ?? false} userId={user.id} />
           </div>
         </div>
       </div>

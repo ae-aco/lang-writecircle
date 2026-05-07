@@ -23,6 +23,7 @@ interface Correction {
   corrected_content: string
   feedback_notes?: string
   created_at: string
+  corrector_id: string
   corrector: {
     username: string
   }
@@ -43,6 +44,7 @@ export default function SubmissionDetailPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [thankYouSent, setThankYouSent] = useState(false)
+  const [user, setUser] = useState<any>(null)
 
   const router = useRouter()
   const params = useParams()
@@ -50,8 +52,14 @@ export default function SubmissionDetailPage() {
   const submissionId = params.id as string
 
   useEffect(() => {
+    fetchUser()
     fetchSubmission()
   }, [submissionId])
+
+  const fetchUser = async () => {
+    const { data: { user } } = await supabase.auth.getUser()
+    setUser(user)
+  }
 
   const fetchSubmission = async () => {
     if (!submissionId) return
@@ -167,6 +175,20 @@ export default function SubmissionDetailPage() {
         {word.text}
       </span>
     ))
+  }
+
+  async function handleThankYou() {
+    if (!correction || !user || !submission) return
+    setThankYouSent(true)
+    
+    await supabase
+      .from('notifications')
+      .insert({
+        user_id: correction.corrector_id,
+        from_user_id: user.id,
+        type: 'thank_you',
+        submission_id: submission.id
+      })
   }
 
   if (loading) {
@@ -296,7 +318,7 @@ export default function SubmissionDetailPage() {
               </p>
               {!thankYouSent ? (
                 <button
-                  onClick={() => setThankYouSent(true)}
+                  onClick={handleThankYou}
                   className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-medium transition-colors"
                 >
                   Thank You
