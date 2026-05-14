@@ -12,6 +12,7 @@ export default function Navbar() {
   const [loading, setLoading] = useState(true)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [notificationCount, setNotificationCount] = useState(0)
+  const [mounted, setMounted] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
   const supabase = createClient()
@@ -33,6 +34,7 @@ export default function Navbar() {
       }
       
       setLoading(false)
+      setMounted(true)
     }
 
     checkSession()
@@ -87,6 +89,14 @@ export default function Navbar() {
     { href: '/queue', label: 'Correct Others', icon: Users },
     { href: '/challenges', label: 'Challenges', icon: Trophy },
   ]
+  
+  if (!mounted) return (
+    <nav className="bg-white border-b border-gray-100 px-6 py-4">
+      <div className="max-w-6xl mx-auto flex justify-between items-center">
+        <span className="font-bold text-indigo-600 text-xl">WriteCircle</span>
+      </div>
+    </nav>
+  )
 
   return (
     <nav className="bg-white border-b border-[#E2EAFC] shadow-sm">
