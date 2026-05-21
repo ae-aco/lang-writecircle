@@ -1,3 +1,4 @@
+import DeleteSubmissionButton from '@/components/ui/delete-submission-button'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -123,8 +124,9 @@ export default async function SubmissionsPage() {
                         <span>{formatDate(submission.created_at)}</span>
                       </div>
 
-                      {/* Bottom row: awaiting correction text */}
-                      <div className="text-right">
+                      {/* Bottom row: awaiting correction text + delete button */}
+                      <div className="flex justify-between items-center">
+                        <DeleteSubmissionButton submissionId={submission.id} />
                         <span className="text-gray-400 text-sm">Awaiting correction...</span>
                       </div>
                     </div>
