@@ -186,7 +186,7 @@ function WritePageContent() {
         p_activity_type: 'submission'
       })
 
-      router.push('/dashboard')
+      router.push('/queue?submitted=true')
     } catch (err) {
       console.error('Error submitting:', err)
       setError('Failed to submit. Please try again.')

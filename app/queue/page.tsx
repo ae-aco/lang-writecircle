@@ -21,7 +21,13 @@ interface Submission {
   }
 }
 
-export default async function QueuePage() {
+export default async function QueuePage({
+  searchParams
+}: {
+  searchParams: Promise<{ submitted?: string }>
+}) {
+  const params = await searchParams
+  const justSubmitted = params.submitted === 'true'
   const supabase = await createClient()
 
   // Get current user
@@ -125,6 +131,16 @@ export default async function QueuePage() {
   return (
     <div className="min-h-screen bg-[#EDF2FB]">
       <Navbar />
+      {justSubmitted && (
+        <div className="bg-teal-50 border-b border-teal-200 px-4 py-3">
+          <div className="max-w-4xl mx-auto flex items-center gap-3">
+            <span className="text-teal-600 text-lg">✓</span>
+            <p className="text-teal-800 text-sm font-medium">
+              Your post has been submitted! Earn a page back by correcting someone else's writing.
+            </p>
+          </div>
+        </div>
+      )}
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="text-center mb-8">
