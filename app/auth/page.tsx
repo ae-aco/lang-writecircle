@@ -24,7 +24,7 @@ function LevelTooltip() {
         i
       </button>
       {open && (
-        <div className="absolute z-10 left-6 top-0 w-64 bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-xs text-gray-600 space-y-1">
+        <div className="absolute z-20 right-0 bottom-6 w-64 bg-white border border-gray-200 rounded-lg shadow-lg p-3 text-xs text-gray-600 space-y-1">
           <p className="font-semibold text-gray-800 mb-2">Language levels explained</p>
           {LEVELS.map(l => (
             <p key={l.code}><span className="font-medium">{l.label}:</span> {l.cefr}</p>
