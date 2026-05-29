@@ -91,6 +91,8 @@ export default async function DashboardPage() {
     .eq('id', user.id)
     .single()
 
+  const isNewUser = new Date(profile.created_at).toDateString() === new Date().toDateString()
+
   if (!profile) redirect('/auth')
 
   // Fetch counts
@@ -151,7 +153,7 @@ export default async function DashboardPage() {
         {/* Section 1 - Welcome Header */}
         <div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Welcome back, {profile.username}! 👋
+            {isNewUser ? 'Welcome' : 'Welcome back'}, {profile.username}! 👋
           </h1>
           <p className="text-gray-600 text-lg">
             Keep up your learning streak and help others improve
