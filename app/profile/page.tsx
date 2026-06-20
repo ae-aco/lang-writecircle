@@ -177,6 +177,9 @@ export default async function ProfilePage() {
             <div className="bg-amber-50 rounded-xl p-4 text-center">
               <p className="text-3xl font-bold text-amber-700">{profile.pages || 0}</p>
               <p className="text-sm text-amber-600">pages available</p>
+              <Link href="/profile/transactions" className="text-sm text-indigo-600 hover:underline mt-2 inline-block">
+                View history →
+              </Link>
             </div>
             
             {/* How to earn pages */}
